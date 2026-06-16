@@ -1,3 +1,6 @@
+!/sql/
+!/sql/*.sql
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
