@@ -62,7 +62,7 @@ INSERT INTO resultado_curso VALUES (seq_resultado.NEXTVAL, 1, 3, 18.0, 'APTO', S
 INSERT INTO resultado_curso VALUES (seq_resultado.NEXTVAL, 2, 3, 16.5, 'APTO', SYSDATE, 'Y');
 INSERT INTO resultado_curso VALUES (seq_resultado.NEXTVAL, 3, 3, 11.0, 'NO APTO', SYSDATE, 'Y');
 
---SEMANA ACADEMICA
+-- SEMANA ACADEMICA
 INSERT INTO semana_academica VALUES (seq_semana_academica.NEXTVAL, 'Semana 1', 'Introducción a la formación militar', TO_DATE('01-09-2026', 'DD-MM-YYYY'), TO_DATE('07-09-2026', 'DD-MM-YYYY'), 'Y');
 INSERT INTO semana_academica VALUES (seq_semana_academica.NEXTVAL, 'Semana 2', 'Técnicas de orden cerrado', TO_DATE('08-09-2026', 'DD-MM-YYYY'), TO_DATE('14-09-2026', 'DD-MM-YYYY'), 'Y');
 INSERT INTO semana_academica VALUES (seq_semana_academica.NEXTVAL, 'Semana 3', 'Fundamentos de motores aeronáuticos', TO_DATE('15-09-2026', 'DD-MM-YYYY'), TO_DATE('21-09-2026', 'DD-MM-YYYY'), 'Y');
@@ -72,19 +72,21 @@ INSERT INTO aula VALUES (seq_aula.NEXTVAL, 'Aula 101', 30, 'Escuela de Formació
 INSERT INTO aula VALUES (seq_aula.NEXTVAL, 'Aula 102', 30, 'Escuela de Formación', 'Y');
 INSERT INTO aula VALUES (seq_aula.NEXTVAL, 'Aula 103', 30, 'Escuela de Formación', 'Y');
 
---BLOQUE DE HORARIO
-INSERT INTO bloque_horario VALUES (seq_bloque_horario.NEXTVAL, '08:00', '10:00');
-INSERT INTO bloque_horario VALUES (seq_bloque_horario.NEXTVAL, '10:00', '12:00');
-INSERT INTO bloque_horario VALUES (seq_bloque_horario.NEXTVAL, '14:00', '16:00');
+-- BLOQUE DE HORARIO
+INSERT INTO bloque_horario VALUES (seq_bloque_horario.NEXTVAL, '08:00', '10:00', 'Y');
+INSERT INTO bloque_horario VALUES (seq_bloque_horario.NEXTVAL, '10:00', '12:00', 'Y');
+INSERT INTO bloque_horario VALUES (seq_bloque_horario.NEXTVAL, '14:00', '16:00', 'Y');
 
---TABLA ACTIVIDAD
-INSERT INTO actividad VALUES (seq_actividad.NEXTVAL, 'Formación Moral', 'Conducta General', 'CLASE', 'Y');
-INSERT INTO actividad VALUES (seq_actividad.NEXTVAL, 'Instrucción Militar Básica', 'Orden Cerrado', 'PRACTICA', 'Y');
-INSERT INTO actividad VALUES (seq_actividad.NEXTVAL, 'Motores Aeronáuticos I', 'Examen Parcial', 'EVALUACION', 'Y');
+-- TABLA ACTIVIDAD
+-- Corregido: nombre, tipo, id_curso, estado
+INSERT INTO actividad VALUES (seq_actividad.NEXTVAL, 'Formación Moral', 'CLASE', 1, 'Y');
+INSERT INTO actividad VALUES (seq_actividad.NEXTVAL, 'Instrucción Militar Básica', 'PRACTICA', 2, 'Y');
+INSERT INTO actividad VALUES (seq_actividad.NEXTVAL, 'Motores Aeronáuticos I', 'EVALUACION', 3, 'Y');
 
---HORARIO
-INSERT INTO horario VALUES (seq_horario.NEXTVAL, "LUNES",SYSDATE,1,1,1,1,2,'Y');
-INSERT INTO horario VALUES (seq_horario.NEXTVAL, "MARTES",SYSDATE,2,2,2,2,2,'Y');
-INSERT INTO horario VALUES (seq_horario.NEXTVAL, "MIERCOLES",SYSDATE,3,3,3,3,2,'Y');
+-- HORARIO
+-- Corregido: Uso de comillas simples para los días de la semana
+INSERT INTO horario VALUES (seq_horario.NEXTVAL, 'LUNES', SYSDATE, 1, 1, 1, 1, 2, 'Y');
+INSERT INTO horario VALUES (seq_horario.NEXTVAL, 'MARTES', SYSDATE, 2, 2, 2, 2, 2, 'Y');
+INSERT INTO horario VALUES (seq_horario.NEXTVAL, 'MIERCOLES', SYSDATE, 3, 3, 3, 3, 2, 'Y');
 
 COMMIT;

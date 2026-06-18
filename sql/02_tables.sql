@@ -44,6 +44,7 @@ CREATE TABLE rol
     estado     VARCHAR2(1) DEFAULT 'Y' NOT NULL,
     CONSTRAINT ck_rol_estado CHECK (estado IN ('Y', 'N'))
 );
+
 -- ==============================
 -- TABLA USUARIO_ROL
 -- ==============================
@@ -83,13 +84,8 @@ CREATE TABLE curso
     id_docente   NUMBER NOT NULL,
     periodo      VARCHAR2(20),
     estado       VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-
-    CONSTRAINT fk_curso_categoria FOREIGN KEY (id_categoria)
-        REFERENCES categoria (id_categoria),
-
-    CONSTRAINT fk_curso_docente FOREIGN KEY (id_docente)
-        REFERENCES usuario (id_usuario),
-
+    CONSTRAINT fk_curso_categoria FOREIGN KEY (id_categoria) REFERENCES categoria (id_categoria),
+    CONSTRAINT fk_curso_docente FOREIGN KEY (id_docente) REFERENCES usuario (id_usuario),
     CONSTRAINT ck_curso_estado CHECK (estado IN ('Y', 'N'))
 );
 
@@ -104,13 +100,8 @@ CREATE TABLE curso_discente
     id_discente       NUMBER NOT NULL,
     fecha_matricula   DATE DEFAULT SYSDATE,
     estado            VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-
-    CONSTRAINT fk_cd_curso FOREIGN KEY (id_curso)
-        REFERENCES curso (id_curso),
-
-    CONSTRAINT fk_cd_discente FOREIGN KEY (id_discente)
-        REFERENCES usuario (id_usuario),
-
+    CONSTRAINT fk_cd_curso FOREIGN KEY (id_curso) REFERENCES curso (id_curso),
+    CONSTRAINT fk_cd_discente FOREIGN KEY (id_discente) REFERENCES usuario (id_usuario),
     CONSTRAINT ck_cd_estado CHECK (estado IN ('Y', 'N'))
 );
 
@@ -127,10 +118,7 @@ CREATE TABLE evaluacion
     peso          NUMBER(5,2),
     fecha         DATE,
     estado        VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-
-    CONSTRAINT fk_eval_curso FOREIGN KEY (id_curso)
-        REFERENCES curso (id_curso),
-
+    CONSTRAINT fk_eval_curso FOREIGN KEY (id_curso) REFERENCES curso (id_curso),
     CONSTRAINT ck_eval_estado CHECK (estado IN ('Y', 'N'))
 );
 
@@ -146,13 +134,8 @@ CREATE TABLE nota
     calificacion  NUMBER(5,2),
     observacion   VARCHAR2(200),
     estado        VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-
-    CONSTRAINT fk_nota_eval FOREIGN KEY (id_evaluacion)
-        REFERENCES evaluacion (id_evaluacion),
-
-    CONSTRAINT fk_nota_discente FOREIGN KEY (id_discente)
-        REFERENCES usuario (id_usuario),
-
+    CONSTRAINT fk_nota_eval FOREIGN KEY (id_evaluacion) REFERENCES evaluacion (id_evaluacion),
+    CONSTRAINT fk_nota_discente FOREIGN KEY (id_discente) REFERENCES usuario (id_usuario),
     CONSTRAINT ck_nota_estado CHECK (estado IN ('Y', 'N'))
 );
 
@@ -169,13 +152,8 @@ CREATE TABLE resultado_curso
     estado_aprobacion VARCHAR2(20),
     fecha_cierre      DATE,
     estado            VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-
-    CONSTRAINT fk_res_curso FOREIGN KEY (id_curso)
-        REFERENCES curso (id_curso),
-
-    CONSTRAINT fk_res_discente FOREIGN KEY (id_discente)
-        REFERENCES usuario (id_usuario),
-
+    CONSTRAINT fk_res_curso FOREIGN KEY (id_curso) REFERENCES curso (id_curso),
+    CONSTRAINT fk_res_discente FOREIGN KEY (id_discente) REFERENCES usuario (id_usuario),
     CONSTRAINT ck_resultado_estado CHECK (estado IN ('Y', 'N'))
 );
 
@@ -186,7 +164,7 @@ CREATE TABLE resultado_curso
 CREATE TABLE semana_academica
 (
     id_semana     NUMBER PRIMARY KEY,
-    numero_semana NUMBER NOT NULL,
+    numero_semana VARCHAR2(20) NOT NULL, -- Cambiado de NUMBER a VARCHAR2 para aceptar 'Semana 1'
     descripcion   VARCHAR2(100),
     fecha_inicio  DATE   NOT NULL,
     fecha_fin     DATE   NOT NULL,
@@ -197,7 +175,6 @@ CREATE TABLE semana_academica
 -- ==============================
 -- TABLA AULA
 -- ==============================
-
 
 CREATE TABLE aula
 (
@@ -230,13 +207,10 @@ CREATE TABLE actividad
 (
     id_actividad NUMBER PRIMARY KEY,
     nombre       VARCHAR2(100) NOT NULL,
-    tipo         VARCHAR2(30), -- CLASE, PRACTICA, EVALUACION
+    tipo         VARCHAR2(30),
     id_curso     NUMBER NOT NULL,
     estado       VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-
-    CONSTRAINT fk_act_curso FOREIGN KEY (id_curso)
-        REFERENCES curso (id_curso),
-
+    CONSTRAINT fk_act_curso FOREIGN KEY (id_curso) REFERENCES curso (id_curso),
     CONSTRAINT ck_actividad_estado CHECK (estado IN ('Y', 'N'))
 );
 
@@ -246,32 +220,20 @@ CREATE TABLE actividad
 
 CREATE TABLE horario
 (
-    id_horario    NUMBER PRIMARY KEY,
-    dia_semana    VARCHAR2(15) NOT NULL,
-    fecha         DATE   NOT NULL,
+    id_horario   NUMBER PRIMARY KEY,
+    dia_semana   VARCHAR2(15) NOT NULL,
+    fecha        DATE   NOT NULL,
+    id_semana    NUMBER NOT NULL,
+    id_aula      NUMBER NOT NULL,
+    id_bloque    NUMBER NOT NULL,
+    id_actividad NUMBER NOT NULL,
+    id_usuario   NUMBER NOT NULL,
+    estado       VARCHAR2(1) DEFAULT 'Y' NOT NULL,
 
-    id_semana     NUMBER NOT NULL,
-    id_aula       NUMBER NOT NULL,
-    id_bloque     NUMBER NOT NULL,
-    id_actividad  NUMBER NOT NULL,
-    id_usuario NUMBER NOT NULL,
-
-    estado        VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-
-    CONSTRAINT fk_hor_semana FOREIGN KEY (id_semana)
-        REFERENCES semana_academica (id_semana),
-
-    CONSTRAINT fk_hor_aula FOREIGN KEY (id_aula)
-        REFERENCES aula (id_aula),
-
-    CONSTRAINT fk_hor_bloque FOREIGN KEY (id_bloque)
-        REFERENCES bloque_horario (id_bloque),
-
-    CONSTRAINT fk_hor_actividad FOREIGN KEY (id_actividad)
-        REFERENCES actividad (id_actividad),
-
-    CONSTRAINT fk_hor_instructor FOREIGN KEY (id_instructor)
-        REFERENCES usuario (id_usuario),
-
+    CONSTRAINT fk_hor_semana FOREIGN KEY (id_semana) REFERENCES semana_academica (id_semana),
+    CONSTRAINT fk_hor_aula FOREIGN KEY (id_aula) REFERENCES aula (id_aula),
+    CONSTRAINT fk_hor_bloque FOREIGN KEY (id_bloque) REFERENCES bloque_horario (id_bloque),
+    CONSTRAINT fk_hor_actividad FOREIGN KEY (id_actividad) REFERENCES actividad (id_actividad),
+    CONSTRAINT fk_hor_instructor FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario), -- Corregido de id_instructor a id_usuario
     CONSTRAINT ck_hor_estado CHECK (estado IN ('Y', 'N'))
 );
