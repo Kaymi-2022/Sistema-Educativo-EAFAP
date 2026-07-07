@@ -1,3 +1,28 @@
+server:
+  port: 8080
+
 spring:
   application:
-    name: Sistema-de-Gestion-Educativa
+    name: sistema-gestion-educativa
+
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/EDUDB
+    username: GESTION_EDUCATIVA
+    password: gestion123
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle19cDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
