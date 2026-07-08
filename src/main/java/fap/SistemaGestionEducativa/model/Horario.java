@@ -39,8 +39,8 @@ public class Horario {
     private Actividad actividad;
 
     @ManyToOne
-    @JoinColumn(name = "ID_INSTRUCTOR", nullable = false)
-    private Usuario instructor;
+    @JoinColumn(name="ID_USUARIO",nullable = false)
+    private Usuario usuario;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
     private String estado = "Y";

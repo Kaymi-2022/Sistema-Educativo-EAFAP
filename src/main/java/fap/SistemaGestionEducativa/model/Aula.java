@@ -16,6 +16,7 @@ public class Aula {
     private String nombre;
 
     @Column(name = "CAPACIDAD")
+    @Positive
     private Integer capacidad;
 
     @Column(name = "UBICACION")

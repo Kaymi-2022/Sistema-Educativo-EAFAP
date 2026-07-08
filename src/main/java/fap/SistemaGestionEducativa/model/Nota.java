@@ -19,10 +19,12 @@ public class Nota {
     private Evaluacion evaluacion;
 
     @ManyToOne
-    @JoinColumn(name = "ID_DISCENTE", nullable = false)
-    private Usuario discente;
+    @JoinColumn(name="ID_USUARIO_ESTUDIANTE")
+    private Usuario usuarioEstudiante;
 
-    @Column(name = "CALIFICACION", nullable = false, precision = 5, scale = 2)
+    @Column(name = "CALIFICACION", nullable = false)
+    @DecimalMin("0")
+    @DecimalMax("20")
     private BigDecimal calificacion;
 
     @Column(name = "OBSERVACION")

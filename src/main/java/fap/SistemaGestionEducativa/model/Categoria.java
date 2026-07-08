@@ -13,9 +13,11 @@ public class Categoria {
     private Long idCategoria;
 
     @Column(name = "NOMBRE", nullable = false)
+    @NotBlank
     private String nombre;
 
     @Column(name = "DESCRIPCION")
+    @NotBlank
     private String descripcion;
 
     @Column(name = "ESTADO", length = 1, nullable = false)

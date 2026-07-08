@@ -3,6 +3,7 @@ package fap.SistemaGestionEducativa.model;
 import jakarta.persistence.*;
 
 import javax.xml.crypto.Data;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -21,11 +22,11 @@ public class ResultadoCurso {
     private Curso curso;
 
     @ManyToOne
-    @JoinColumn(name = "ID_DISCENTE", nullable = false)
+    @JoinColumn(name="ID_USUARIO_ESTUDIANTE")
     private Usuario discente;
 
     @Column(name = "PROMEDIO_FINAL", nullable = false)
-    private Double promedioFinal;
+    private BigDecimal promedioFinal;
 
     @Column(name = "ESTADO_APROBACION", length = 1, nullable = false)
     private String estadoAprobacion;

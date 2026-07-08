@@ -8,7 +8,7 @@ public class BloqueHorario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_bloque")
-    @SequenceGenerator(name = "seq_bloque", sequenceName = "SEQ_BLOQUE", allocationSize = 1)
+    @SequenceGenerator(name = "SEQ_BLOQUE_HORARIO", sequenceName = "SEQ_BLOQUE", allocationSize = 1)
     @Column(name = "ID_BLOQUE")
     private Long idBloque;
 

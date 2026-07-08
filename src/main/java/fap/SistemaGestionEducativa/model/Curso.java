@@ -22,12 +22,13 @@ public class Curso {
     @JoinColumn(name = "ID_CATEGORIA", nullable = false)
     private Categoria categoria;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_DOCENTE", nullable = false)
-    private Usuario docente;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO_DOCENTE", nullable = false)
+    private Usuario usuarioDocente;
 
-    @Column(name = "PERIODO", nullable = false)
-    private String periodo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERIODO", nullable = false)
+    private PeriodoAcademico periodoAcademico;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
     private String estado = "Y";

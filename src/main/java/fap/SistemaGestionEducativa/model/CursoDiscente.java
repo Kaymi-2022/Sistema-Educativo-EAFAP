@@ -18,8 +18,8 @@ public class CursoDiscente {
     private Curso curso;
 
     @ManyToOne
-    @JoinColumn(name = "ID_DISCENTE", nullable = false)
-    private Usuario discente;
+    @JoinColumn(name = "ID_USUARIO_ESTUDIANTE")
+    private Usuario usuarioEstudiante;
 
     @Column(name = "FECHA_MATRICULA")
     private LocalDate fechaMatricula;

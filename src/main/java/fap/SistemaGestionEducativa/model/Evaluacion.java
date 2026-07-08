@@ -25,7 +25,9 @@ public class Evaluacion {
     @Column(name = "TIPO", nullable = false)
     private String tipo;
 
-    @Column(name = "PESO", nullable = false, precision = 5, scale = 2)
+    @Column(name = "PESO", nullable = false)
+    @DecimalMin("0")
+    @DecimalMax("100")
     private BigDecimal peso;
 
     @Column(name = "FECHA", nullable = false)

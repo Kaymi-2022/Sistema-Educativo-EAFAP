@@ -12,7 +12,8 @@ public class Rol {
     @Column(name = "ID_ROL")
     private Long idRol;
 
-    @Column(name = "NOMBRE_ROL", nullable = false)
+    @Column(name = "NOMBRE_ROL")
+    @NotBlank
     private String nombreRol;
 
     @Column(name = "ESTADO", length = 1, nullable = false)

@@ -12,7 +12,8 @@ public class Usuario {
     @Column(name = "ID_USUARIO")
     private Long idUsuario;
 
-    @Column(name = "DNI", length = 8, nullable = false)
+    @NotBlank
+    @Size(min=8,max=8)
     private String dni;
 
     @Column(name = "NOMBRES", nullable = false)
@@ -22,12 +23,15 @@ public class Usuario {
     private String apellidos;
 
     @Column(name = "EMAIL")
+    @Email
     private String email;
 
     @Column(name = "USERNAME", nullable = false)
+    @NotBlank
     private String username;
 
     @Column(name = "PASSWORD", nullable = false)
+    @NotBlank
     private String password;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
