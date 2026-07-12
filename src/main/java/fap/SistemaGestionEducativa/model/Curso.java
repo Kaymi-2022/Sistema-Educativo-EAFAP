@@ -2,6 +2,8 @@ package fap.SistemaGestionEducativa.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "CURSO")
 public class Curso {
@@ -18,7 +20,7 @@ public class Curso {
     @Column(name = "DESCRIPCION")
     private String descripcion;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CATEGORIA", nullable = false)
     private Categoria categoria;
 
@@ -32,4 +34,7 @@ public class Curso {
 
     @Column(name = "ESTADO", length = 1, nullable = false)
     private String estado = "Y";
+
+    @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Actividad> actividades;
 }

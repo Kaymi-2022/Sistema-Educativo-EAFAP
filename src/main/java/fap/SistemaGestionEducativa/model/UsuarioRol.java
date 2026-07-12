@@ -1,16 +1,41 @@
 package fap.SistemaGestionEducativa.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import java.io.Serializable;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Embeddable
-public class UsuarioRol implements Serializable {
+import java.time.LocalDate;
 
-    @Column(name = "ID_USUARIO")
-    private Long idUsuario;
+@Entity
+@Table(name = "USUARIO_ROL")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UsuarioRol{
 
-    @Column(name = "ID_ROL")
-    private Long idRol;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario_rol")
+    @SequenceGenerator(name = "seq_usuario_rol", sequenceName = "SEQ_USUARIO_ROL", allocationSize = 1)
+    @Column(name = "ID_USUARIO_ROL")
+    private Long idUsuarioRol;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_ROL", nullable = false)
+    private Rol rol;
+
+    @Column(name = "FECHA_ASIGNACION", nullable = false)
+    private LocalDate fechaAsignacion;
+
+    @Column(name= "ESTADO")
+    private String estado = "Y";
+
+
 }

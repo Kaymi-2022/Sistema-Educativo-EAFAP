@@ -26,8 +26,6 @@ public class Evaluacion {
     private String tipo;
 
     @Column(name = "PESO", nullable = false)
-    @DecimalMin("0")
-    @DecimalMax("100")
     private BigDecimal peso;
 
     @Column(name = "FECHA", nullable = false)

@@ -2,6 +2,8 @@ package fap.SistemaGestionEducativa.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "CATEGORIA")
 public class Categoria {
@@ -13,13 +15,14 @@ public class Categoria {
     private Long idCategoria;
 
     @Column(name = "NOMBRE", nullable = false)
-    @NotBlank
     private String nombre;
 
     @Column(name = "DESCRIPCION")
-    @NotBlank
     private String descripcion;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
     private String estado = "Y";
+
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+    private List<Curso> cursos;
 }
