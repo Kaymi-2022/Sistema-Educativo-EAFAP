@@ -8,50 +8,45 @@ import fap.SistemaGestionEducativa.mapper.seguridad.UsuarioMapper;
 import fap.SistemaGestionEducativa.model.seguridad.Usuario;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.UsuarioService;
+import fap.SistemaGestionEducativa.service.validadores.Validaciones;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final Validaciones validaciones;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
     public ApiResponse<UsuarioResponse> registrar(UsuarioRequest request) {
-        // Validar si el usuario ya existe por username o dni
-        if (usuarioRepository.existsByUsername(request.getUsername())) {
-            return ResponseBuilder.success(
-                    ApiConstants.NO_CONTENT,
-                    MessageConstants.USER_ALREADY_EXISTS,
-                    null
-            );
-        }
-        if (usuarioRepository.existsByDni(request.getDni())) {
-            return ResponseBuilder.success(
-                    ApiConstants.NO_CONTENT,
-                    MessageConstants.USER_ALREADY_EXISTS,
-                    null
-            );
-        }
+
+        validaciones.validarDuplicados(request);
 
         Usuario usuario = usuarioMapper.toEntity(request);
-        usuario.setEstado("N");
-        Usuario savedUsuario = usuarioRepository.save(usuario);
-        UsuarioResponse response = usuarioMapper.toResponse(savedUsuario);
+
+        usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+        usuario.setEstado("Y");
+
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
         return ResponseBuilder.success(
                 ApiConstants.CREATED,
                 MessageConstants.USER_CREATED,
-                response
+                usuarioMapper.toResponse(usuarioGuardado)
         );
 
     }
@@ -72,8 +67,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public ApiResponse<UsuarioResponse> obtenerPorId(Long idUsuario) {
-        return null;
+
+        Usuario usuario = validaciones.obtenerUsuario(idUsuario);
+
+        return ResponseBuilder.success(
+                ApiConstants.SUCCESS,
+                MessageConstants.SUCCESS,
+                usuarioMapper.toResponse(usuario)
+        );
+
     }
 
     @Override
