@@ -1,8 +1,16 @@
 package fap.SistemaGestionEducativa.service.Impl;
 
-import fap.SistemaGestionEducativa.model.Usuario;
-import fap.SistemaGestionEducativa.repository.UsuarioRepository;
-import fap.SistemaGestionEducativa.service.UsuarioService;
+import fap.SistemaGestionEducativa.dto.request.seguridad.UsuarioRequest;
+import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.seguridad.UsuarioResponse;
+import fap.SistemaGestionEducativa.exception.ResourceNotFoundException;
+import fap.SistemaGestionEducativa.mapper.seguridad.UsuarioMapper;
+import fap.SistemaGestionEducativa.model.seguridad.Usuario;
+import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
+import fap.SistemaGestionEducativa.service.business.UsuarioService;
+import fap.SistemaGestionEducativa.util.ApiConstants;
+import fap.SistemaGestionEducativa.util.MessageConstants;
+import fap.SistemaGestionEducativa.util.ResponseBuilder;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,59 +23,66 @@ import java.util.List;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioMapper usuarioMapper;
+
 
     @Override
-    public List<Usuario> obtenerTodosLosUsuarios() {
-        return usuarioRepository.findAll();
-    }
-
-    @Override
-    public Usuario obtenerUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Usuario no encontrado con ID: " + id));
-    }
-
-    @Override
-    @Transactional
-    public Usuario crearUsuario(@Valid Usuario usuario) {
-
-        if(usuarioRepository.existsByDni(usuario.getDni())) {
-            throw new RuntimeException("El DNI ya está registrado: " + usuario.getDni());
+    public ApiResponse<UsuarioResponse> registrar(UsuarioRequest request) {
+        // Validar si el usuario ya existe por username o dni
+        if (usuarioRepository.existsByUsername(request.getUsername())) {
+            return ResponseBuilder.success(
+                    ApiConstants.NO_CONTENT,
+                    MessageConstants.USER_ALREADY_EXISTS,
+                    null
+            );
         }
-        if(usuarioRepository.existsByEmail(usuario.getEmail())) {
-            throw new RuntimeException("El email ya está registrado: " + usuario.getEmail());
-        }
-        if(usuarioRepository.existsByUsername(usuario.getUsername())) {
-            throw new RuntimeException("El nombre de usuario ya está registrado: " + usuario.getUsername());
+        if (usuarioRepository.existsByDni(request.getDni())) {
+            return ResponseBuilder.success(
+                    ApiConstants.NO_CONTENT,
+                    MessageConstants.USER_ALREADY_EXISTS,
+                    null
+            );
         }
 
-        return usuarioRepository.save(usuario);
+        Usuario usuario = usuarioMapper.toEntity(request);
+        usuario.setEstado("N");
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+        UsuarioResponse response = usuarioMapper.toResponse(savedUsuario);
+        return ResponseBuilder.success(
+                ApiConstants.CREATED,
+                MessageConstants.USER_CREATED,
+                response
+        );
+
     }
 
     @Override
-    @Transactional
-    public Usuario actualizarUsuario(Long id, @Valid Usuario usuario) {
-        Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Usuario no encontrado con ID: " + id));
+    public ApiResponse<UsuarioResponse> actualizar(Long idUsuario, UsuarioRequest request) {
+        // Validar si el usuario existe
+        Usuario usuarioExistente = usuarioRepository.findById(idUsuario)
+                .orElseThrow(()-> new ResourceNotFoundException(MessageConstants.USER_NOT_FOUND));
 
-        usuarioExistente.setIdUsuario(usuario.getIdUsuario());
-        usuarioExistente.setDni(usuario.getDni());
-        usuarioExistente.setNombres(usuario.getNombres());
-        usuarioExistente.setApellidos(usuario.getApellidos());
-        usuarioExistente.setEmail(usuario.getEmail());
-        usuarioExistente.setUsername(usuario.getUsername());
-        usuarioExistente.setPassword(usuario.getPassword());
-        usuarioExistente.setEstado(usuario.getEstado());
-
-        return usuarioRepository.save(usuarioExistente);
+        Usuario updatedUsuario = usuarioRepository.save(usuarioExistente);
+        UsuarioResponse response = usuarioMapper.toResponse(updatedUsuario);
+        return ResponseBuilder.success(
+                ApiConstants.CREATED,
+                MessageConstants.USER_UPDATED,
+                response
+        );
     }
 
     @Override
-    @Transactional
-    public void eliminarUsuario(Long id) {
-        Usuario usuario = obtenerUsuarioPorId(id);
-        usuarioRepository.delete(usuario);
+    public ApiResponse<UsuarioResponse> obtenerPorId(Long idUsuario) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse<List<UsuarioResponse>> listar() {
+        return null;
+    }
+
+    @Override
+    public ApiResponse<Void> eliminar(Long idUsuario) {
+        return null;
     }
 }

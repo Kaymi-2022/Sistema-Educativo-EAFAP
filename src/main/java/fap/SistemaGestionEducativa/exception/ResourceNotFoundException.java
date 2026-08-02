@@ -1,0 +1,9 @@
+package fap.SistemaGestionEducativa.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+
+}
