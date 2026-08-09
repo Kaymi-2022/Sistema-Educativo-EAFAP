@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface BloqueHorarioRepository extends JpaRepository<BloqueHorario, Long> {
 
-    List<BloqueHorario> findByEstado(String estado);
+    List<BloqueHorario> findAllByEstado(String estado);
+
+    boolean existsByHoraInicioAndHoraFinAndEstado(String horaInicio, String horaFin, String estado);
 
 }

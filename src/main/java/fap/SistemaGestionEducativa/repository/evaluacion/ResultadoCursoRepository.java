@@ -8,8 +8,13 @@ import java.util.Optional;
 
 public interface ResultadoCursoRepository extends JpaRepository<ResultadoCurso, Long> {
 
-    List<ResultadoCurso> findByDiscenteIdUsuario(Long idUsuario);
+//    List<ResultadoCurso> findByDiscenteIdUsuario(Long idUsuario);
 
-    Optional<ResultadoCurso> findByCursoIdCursoAndDiscenteIdUsuario(Long idCurso,Long idUsuario);
+    Optional<ResultadoCurso> findByCursoIdCursoAndEstudianteIdUsuarioAndEstado(Long idCurso, Long idDiscente, String estado);
 
+    List<ResultadoCurso> findAllByEstado(String estado);
+
+    boolean existsByCursoIdCursoAndEstudianteIdUsuarioAndEstado(Long idCurso, Long idUsuario, String estado);
+
+    List<ResultadoCurso> findAllByEstudianteIdUsuarioAndEstado(Long idEstudiante, String estado);
 }

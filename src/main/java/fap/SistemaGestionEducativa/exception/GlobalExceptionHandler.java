@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.exception;
 
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -18,9 +17,9 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleNotFound(ResourceNotFoundException ex){
+    public ResponseEntity<RestResponse<Object>> handleNotFound(ResourceNotFoundException ex){
 
-        ApiResponse<Object> response = ApiResponse.builder()
+        RestResponse<Object> response = RestResponse.builder()
                 .success(false)
                 .code(ApiConstants.NOT_FOUND)
                 .message(ex.getMessage())
@@ -33,9 +32,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateResourceException.class)
-    public ResponseEntity<ApiResponse<Object>> handleDuplicate(DuplicateResourceException ex){
+    public ResponseEntity<RestResponse<Object>> handleDuplicate(DuplicateResourceException ex){
 
-        ApiResponse<Object> response = ApiResponse.builder()
+        RestResponse<Object> response = RestResponse.builder()
                 .success(false)
                 .code(ApiConstants.CONFLICT)
                 .message(ex.getMessage())
@@ -48,9 +47,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse<Object>> handleBusiness(BusinessException ex){
+    public ResponseEntity<RestResponse<Object>> handleBusiness(BusinessException ex){
 
-        ApiResponse<Object> response = ApiResponse.builder()
+        RestResponse<Object> response = RestResponse.builder()
                 .success(false)
                 .code(ApiConstants.BAD_REQUEST)
                 .message(ex.getMessage())
@@ -63,7 +62,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Object>> handleValidation(MethodArgumentNotValidException ex){
+    public ResponseEntity<RestResponse<Object>> handleValidation(MethodArgumentNotValidException ex){
 
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
@@ -71,7 +70,7 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .toList();
 
-        ApiResponse<Object> response = ApiResponse.builder()
+        RestResponse<Object> response = RestResponse.builder()
                 .success(false)
                 .code(ApiConstants.BAD_REQUEST)
                 .message("Error de validación en los datos de entrada.")
@@ -83,9 +82,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleException(Exception ex){
+    public ResponseEntity<RestResponse<Object>> handleException(Exception ex){
 
-        ApiResponse<Object> response = ApiResponse.builder()
+        RestResponse<Object> response = RestResponse.builder()
                 .success(false)
                 .code(ApiConstants.INTERNAL_SERVER_ERROR)
                 .message("Ocurrió un error inesperado en el servidor.")

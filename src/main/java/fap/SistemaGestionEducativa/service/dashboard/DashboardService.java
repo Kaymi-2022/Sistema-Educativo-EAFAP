@@ -10,36 +10,36 @@ public interface DashboardService {
     /**
      * Obtiene toda la información del panel principal.
      */
-    ApiResponse<DashboardResponse> obtenerDashboard();
+    RestResponse<DashboardResponse> obtenerDashboard();
 
 
     /**
      * Indicadores generales del sistema.
      */
-    ApiResponse<DashboardResponse> obtenerIndicadores();
+    RestResponse<DashboardResponse> obtenerIndicadores();
 
 
     /**
      * Cursos activos.
      */
-    ApiResponse<List<CursoDashboardResponse>> obtenerCursosActivos();
+    RestResponse<List<CursoDashboardResponse>> obtenerCursosActivos();
 
 
     /**
      * Cursos por categoría.
      */
-    ApiResponse<List<ResumenCategoriaResponse>> obtenerCursosPorCategoria();
+    RestResponse<List<ResumenCategoriaResponse>> obtenerCursosPorCategoria();
 
 
     /**
      * Evaluaciones programadas pendientes.
      */
-    ApiResponse<List<EvaluacionPendienteResponse>> obtenerEvaluacionesPendientes();
+    RestResponse<List<EvaluacionPendienteResponse>> obtenerEvaluacionesPendientes();
 
 
     /**
      * Horario del día.
      */
-    ApiResponse<List<HorarioHoyResponse>> obtenerHorarioHoy();
+    RestResponse<List<HorarioHoyResponse>> obtenerHorarioHoy();
 
 }

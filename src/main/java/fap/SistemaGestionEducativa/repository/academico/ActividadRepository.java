@@ -11,4 +11,10 @@ public interface ActividadRepository extends JpaRepository<Actividad, Long> {
 
     List<Actividad> findByTipo(String tipo);
 
+    List<Actividad> findAllByEstado(String estado);
+
+    List<Actividad> findAllByCursoIdCursoAndEstado(Long idCurso, String estado);
+
+    boolean existsByNombreIgnoreCaseAndCursoIdCursoAndEstado(String nombre, Long idCurso, String estado);
+
 }

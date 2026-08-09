@@ -2,6 +2,7 @@ package fap.SistemaGestionEducativa.dto.response.reporte;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter

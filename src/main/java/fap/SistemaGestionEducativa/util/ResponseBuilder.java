@@ -1,15 +1,15 @@
 package fap.SistemaGestionEducativa.util;
 
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 
 public class ResponseBuilder {
 
     private ResponseBuilder() {
     }
 
-    public static <T> ApiResponse<T> success(String code,String message,T data) {
+    public static <T> RestResponse<T> success(String code, String message, T data) {
 
-        return ApiResponse.<T>builder()
+        return RestResponse.<T>builder()
                 .success(true)
                 .code(code)
                 .message(message)
@@ -17,9 +17,9 @@ public class ResponseBuilder {
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(String code, String message) {
+    public static <T> RestResponse<T> error(String code, String message) {
 
-        return ApiResponse.<T>builder()
+        return RestResponse.<T>builder()
                 .success(false)
                 .code(code)
                 .message(message)

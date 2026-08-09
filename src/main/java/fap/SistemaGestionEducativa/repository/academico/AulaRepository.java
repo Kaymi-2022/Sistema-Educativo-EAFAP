@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AulaRepository extends JpaRepository<Aula, Long> {
 
-    List<Aula> findByEstado(String estado);
+    List<Aula> findAllByEstado(String estado);
+
+    boolean existsByNombreIgnoreCaseAndEstado(String nombre, String estado);
 
 }

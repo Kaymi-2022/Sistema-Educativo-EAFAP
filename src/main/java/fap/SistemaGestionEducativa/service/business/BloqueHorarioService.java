@@ -1,19 +1,19 @@
 package fap.SistemaGestionEducativa.service.business;
 
 import fap.SistemaGestionEducativa.dto.request.academico.BloqueHorarioRequest;
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.dto.response.academico.BloqueHorarioResponse;
 
 import java.util.List;
 
 public interface BloqueHorarioService {
 
-    ApiResponse<BloqueHorarioResponse> registrar(BloqueHorarioRequest request);
+    RestResponse<BloqueHorarioResponse> registrar(BloqueHorarioRequest request);
 
-    ApiResponse<BloqueHorarioResponse> actualizar(Long idBloque, BloqueHorarioRequest request);
+    RestResponse<BloqueHorarioResponse> actualizar(Long idBloque, BloqueHorarioRequest request);
 
-    ApiResponse<List<BloqueHorarioResponse>> listar();
+    RestResponse<List<BloqueHorarioResponse>> listar();
 
-    ApiResponse<Void> eliminar(Long idBloque);
+    RestResponse<Void> eliminar(Long idBloque);
 
 }

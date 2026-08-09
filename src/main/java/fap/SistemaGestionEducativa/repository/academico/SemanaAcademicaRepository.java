@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface SemanaAcademicaRepository extends JpaRepository<SemanaAcademica, Long> {
 
-    List<SemanaAcademica> findByEstado(String estado);
+    List<SemanaAcademica> findAllByEstado(String estado);
+
+    boolean existsByNumeroSemanaAndEstado(Integer numeroSemana, String estado);
 
 }

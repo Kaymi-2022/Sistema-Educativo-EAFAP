@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class BloqueHorario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_bloque")
-    @SequenceGenerator(name = "SEQ_BLOQUE_HORARIO", sequenceName = "SEQ_BLOQUE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_bloque_horario")
+    @SequenceGenerator(name = "seq_bloque_horario", sequenceName = "SEQ_BLOQUE_HORARIO", allocationSize = 1)
     @Column(name = "ID_BLOQUE")
     private Long idBloque;
 

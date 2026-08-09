@@ -1,21 +1,18 @@
 package fap.SistemaGestionEducativa.service.business;
 
 import fap.SistemaGestionEducativa.dto.request.academico.MatriculaRequest;
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.dto.response.academico.CursoDiscenteResponse;
 
 import java.util.List;
 
 public interface CursoDiscenteService {
 
-    ApiResponse<CursoDiscenteResponse> matricular(MatriculaRequest request);
+    RestResponse<CursoDiscenteResponse> registrar(MatriculaRequest request);
 
-    ApiResponse<List<CursoDiscenteResponse>> listar();
+    RestResponse<List<CursoDiscenteResponse>> listar();
 
-    ApiResponse<List<CursoDiscenteResponse>> listarPorCurso(Long idCurso);
+    RestResponse<CursoDiscenteResponse> obtenerPorId(Long idCursoDiscente);
 
-    ApiResponse<List<CursoDiscenteResponse>> listarPorEstudiante(Long idEstudiante);
-
-    ApiResponse<Void> retirar(Long idCursoDiscente);
-
+    RestResponse<Void> eliminar(Long idCursoDiscente);
 }

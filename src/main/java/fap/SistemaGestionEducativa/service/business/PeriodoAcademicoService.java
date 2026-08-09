@@ -1,21 +1,21 @@
 package fap.SistemaGestionEducativa.service.business;
 
 import fap.SistemaGestionEducativa.dto.request.academico.PeriodoAcademicoRequest;
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.dto.response.academico.PeriodoAcademicoResponse;
 
 import java.util.List;
 
 public interface PeriodoAcademicoService {
 
-    ApiResponse<PeriodoAcademicoResponse> registrar(PeriodoAcademicoRequest request);
+    RestResponse<PeriodoAcademicoResponse> registrar(PeriodoAcademicoRequest request);
 
-    ApiResponse<PeriodoAcademicoResponse> actualizar(Long idPeriodo, PeriodoAcademicoRequest request);
+    RestResponse<PeriodoAcademicoResponse> actualizar(Long idPeriodo, PeriodoAcademicoRequest request);
 
-    ApiResponse<PeriodoAcademicoResponse> obtenerPorId(Long idPeriodo);
+    RestResponse<PeriodoAcademicoResponse> obtenerPorId(Long idPeriodo);
 
-    ApiResponse<List<PeriodoAcademicoResponse>> listar();
+    RestResponse<List<PeriodoAcademicoResponse>> listar();
 
-    ApiResponse<Void> eliminar(Long idPeriodo);
+    RestResponse<Void> eliminar(Long idPeriodo);
 
 }

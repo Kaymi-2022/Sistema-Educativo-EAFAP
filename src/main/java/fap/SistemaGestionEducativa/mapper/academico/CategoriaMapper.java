@@ -5,6 +5,8 @@ import fap.SistemaGestionEducativa.dto.request.academico.CategoriaRequest;
 import fap.SistemaGestionEducativa.dto.response.academico.CategoriaResponse;
 import fap.SistemaGestionEducativa.model.academico.Categoria;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -16,5 +18,9 @@ public interface CategoriaMapper {
     CategoriaResponse toResponse(Categoria entity);
 
     List<CategoriaResponse> toResponseList(List<Categoria> entities);
+
+    @Mapping(target = "idCategoria", ignore = true)
+    @Mapping(target = "estado", ignore = true)
+    void updateEntity(CategoriaRequest request, @MappingTarget Categoria entity);
 
 }

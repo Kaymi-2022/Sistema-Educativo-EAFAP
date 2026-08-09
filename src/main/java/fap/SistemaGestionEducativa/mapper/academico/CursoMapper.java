@@ -7,6 +7,7 @@ import fap.SistemaGestionEducativa.model.academico.Curso;
 import fap.SistemaGestionEducativa.model.seguridad.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -24,8 +25,17 @@ public interface CursoMapper {
     @Mapping(target = "estado", ignore = true)
     Curso toEntity(CursoRequest request);
 
+    //  =========================================
+    // 2. Actualizar Entidad JPA con DTO Request
+    // =========================================
+    @Mapping(target = "idCurso", ignore = true)
+    @Mapping(target = "categoria", ignore = true)
+    @Mapping(target = "docente", ignore = true)
+    @Mapping(target = "estado", ignore = true)
+    void updateEntity(CursoRequest request, Curso curso);
+
     // ==========================================
-    // 2. Entidad JPA -> DTO Response
+    // 3. Entidad JPA -> DTO Response
     // ==========================================
     @Mapping(source = "categoria.idCategoria", target = "idCategoria")
     @Mapping(source = "categoria.nombre", target = "categoria")
@@ -36,12 +46,12 @@ public interface CursoMapper {
     CursoResponse toResponse(Curso entity);
 
     // ==========================================
-    // 3. Mapeo de Lista
+    // 4. Mapeo de Lista
     // ==========================================
     List<CursoResponse> toResponseList(List<Curso> entities);
 
     // ==========================================
-    // 4. Método auxiliar seguro para concatenar
+    // 5. Método auxiliar seguro para concatenar
     // ==========================================
     default String mapDocenteNombreCompleto(Usuario docente) {
         if (docente == null) {
@@ -51,5 +61,6 @@ public interface CursoMapper {
         String apellidos = docente.getApellidos() != null ? docente.getApellidos() : "";
         return (nombres + " " + apellidos).trim();
     }
+
 
 }

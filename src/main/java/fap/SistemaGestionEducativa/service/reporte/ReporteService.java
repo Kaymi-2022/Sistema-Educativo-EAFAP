@@ -1,42 +1,43 @@
 package fap.SistemaGestionEducativa.service.reporte;
 
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
+import fap.SistemaGestionEducativa.dto.response.evaluacion.ResultadoCursoResponse;
+import fap.SistemaGestionEducativa.dto.response.reporte.CursoReporteResponse;
+import fap.SistemaGestionEducativa.dto.response.reporte.NotaDetalleResponse;
+import fap.SistemaGestionEducativa.dto.response.reporte.PromedioGeneralResponse;
+import fap.SistemaGestionEducativa.dto.response.reporte.ReporteAcademicoResponse;
+
+import java.util.List;
+
 public interface ReporteService {
 
     /**
      * Obtiene el historial académico completo del estudiante.
-     *
-     * @param codigoEstudiante código (username) del estudiante.
      */
-    ApiResponse<ReporteAcademicoResponse> obtenerHistorialAcademico(
-            String codigoEstudiante);
+    RestResponse<ReporteAcademicoResponse> obtenerHistorialAcademico(String codigoEstudiante);
 
 
     /**
      * Obtiene todas las notas del estudiante.
      */
-    ApiResponse<List<NotaDetalleResponse>> obtenerNotas(
-            String codigoEstudiante);
+    RestResponse<List<NotaDetalleResponse>> obtenerNotas(String codigoEstudiante);
 
 
     /**
      * Obtiene los resultados finales por curso.
      */
-    ApiResponse<List<ResultadoCursoResponse>> obtenerResultados(
-            String codigoEstudiante);
+    RestResponse<List<ResultadoCursoResponse>> obtenerResultados(String codigoEstudiante);
 
 
     /**
      * Obtiene el promedio general del estudiante.
      */
-    ApiResponse<PromedioGeneralResponse> obtenerPromedioGeneral(
-            String codigoEstudiante);
+    RestResponse<PromedioGeneralResponse> obtenerPromedioGeneral(String codigoEstudiante);
 
 
     /**
      * Obtiene el detalle de un curso específico.
      */
-    ApiResponse<CursoReporteResponse> obtenerCurso(
-            String codigoEstudiante,
-            Long idCurso);
+    RestResponse<CursoReporteResponse> obtenerCurso(String codigoEstudiante, Long idCurso);
 
 }

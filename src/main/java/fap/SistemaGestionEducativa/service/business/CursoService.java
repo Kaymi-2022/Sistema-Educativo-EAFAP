@@ -1,25 +1,21 @@
 package fap.SistemaGestionEducativa.service.business;
 
 import fap.SistemaGestionEducativa.dto.request.academico.CursoRequest;
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.dto.response.academico.CursoResponse;
 
 import java.util.List;
 
 public interface CursoService {
 
-    ApiResponse<CursoResponse> registrar(CursoRequest request);
+    RestResponse<CursoResponse> registrar(CursoRequest request);
 
-    ApiResponse<CursoResponse> actualizar(Long idCurso, CursoRequest request);
+    RestResponse<CursoResponse> actualizar(Long idCurso, CursoRequest request);
 
-    ApiResponse<CursoResponse> obtenerPorId(Long idCurso);
+    RestResponse<CursoResponse> obtenerPorId(Long idCurso);
 
-    ApiResponse<List<CursoResponse>> listar();
+    RestResponse<List<CursoResponse>> listar();
 
-    ApiResponse<List<CursoResponse>> listarPorCategoria(Long idCategoria);
-
-    ApiResponse<List<CursoResponse>> listarPorDocente(Long idDocente);
-
-    ApiResponse<Void> eliminar(Long idCurso);
+    RestResponse<Void> eliminar(Long idCurso);
 
 }

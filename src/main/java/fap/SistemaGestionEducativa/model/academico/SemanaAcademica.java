@@ -17,8 +17,8 @@ import java.time.LocalDate;
 public class SemanaAcademica {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_semana")
-    @SequenceGenerator(name = "seq_semana", sequenceName = "SEQ_SEMANA", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_semana_academica")
+    @SequenceGenerator(name = "seq_semana_academica", sequenceName = "SEQ_SEMANA_ACADEMICA", allocationSize = 1)
     @Column(name = "ID_SEMANA")
     private Long idSemana;
 

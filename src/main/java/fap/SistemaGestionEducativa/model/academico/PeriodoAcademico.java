@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.time.LocalDate;
 
 @Table(name="PERIODO_ACADEMICO")
 @Entity
@@ -30,10 +31,10 @@ public class PeriodoAcademico {
     private String nombre;
 
     @Column(name = "FECHA_INICIO", nullable = false)
-    private java.util.Date fechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "FECHA_FIN", nullable = false)
-    private java.util.Date fechaFin;
+    private LocalDate fechaFin;
 
     @Column(name = "ESTADO", nullable = false, length = 1)
     private String estado = "Y";

@@ -15,8 +15,6 @@ public interface UsuarioRolMapper {
     @Mapping(target = "idUsuarioRol", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "rol", ignore = true)
-    @Mapping(target = "fechaAsignacion", ignore = true)
-    @Mapping(target = "estado", ignore = true)
     UsuarioRol toEntity(UsuarioRolRequest request);
 
     @Mapping(source = "usuario.idUsuario", target = "idUsuario")

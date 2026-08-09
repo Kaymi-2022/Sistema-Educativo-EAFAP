@@ -1,20 +1,30 @@
 package fap.SistemaGestionEducativa.service.business;
 
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.request.evaluacion.ResultadoCursoRequest;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.dto.response.evaluacion.ResultadoCursoResponse;
 
 import java.util.List;
 
 public interface ResultadoCursoService {
 
-    ApiResponse<List<ResultadoCursoResponse>> listar();
+    RestResponse<ResultadoCursoResponse> registrar(ResultadoCursoRequest request);
 
-    ApiResponse<ResultadoCursoResponse> obtenerResultado(Long idCurso, Long idEstudiante);
+    RestResponse<ResultadoCursoResponse> obtenerPorId(Long idResultado);
 
-    ApiResponse<List<ResultadoCursoResponse>> listarPorCurso(Long idCurso);
+    RestResponse<ResultadoCursoResponse> obtenerPorCursoxDiscente(Long idCurso, Long idDiscente);
 
-    ApiResponse<List<ResultadoCursoResponse>> listarPorEstudiante(Long idEstudiante);
+    RestResponse<List<ResultadoCursoResponse>> listar();
 
-    ApiResponse<Void> recalcularResultado(Long idCurso);
+    RestResponse<Void> eliminar(Long idResultado);
 
+//    ApiResponse<ResultadoCursoResponse> obtenerResultado(Long idCurso, Long idEstudiante);
+//
+//    ApiResponse<List<ResultadoCursoResponse>> listarPorCurso(Long idCurso);
+//
+//    ApiResponse<List<ResultadoCursoResponse>> listarPorEstudiante(Long idEstudiante);
+//
+//    ApiResponse<Void> recalcularResultado(Long idCurso);
+//
+//    ApiResponse<ResultadoCursoResponse> obtenerPorCursoAndDiscente(Long idCurso, Long idDiscente);
 }

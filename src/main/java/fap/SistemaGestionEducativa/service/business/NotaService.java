@@ -1,21 +1,24 @@
 package fap.SistemaGestionEducativa.service.business;
 
 import fap.SistemaGestionEducativa.dto.request.evaluacion.NotaRequest;
-import fap.SistemaGestionEducativa.dto.response.ApiResponse;
+import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.dto.response.evaluacion.NotaResponse;
 
 import java.util.List;
 
 public interface NotaService {
 
-    ApiResponse<NotaResponse> registrar(NotaRequest request);
+    RestResponse<NotaResponse> registrar(NotaRequest request);
 
-    ApiResponse<NotaResponse> actualizar(Long idNota, NotaRequest request);
+    RestResponse<NotaResponse> actualizar(Long idNota, NotaRequest request);
 
-    ApiResponse<List<NotaResponse>> listar();
+    RestResponse<NotaResponse> obtenerPorId(Long idNota);
 
-    ApiResponse<List<NotaResponse>> listarPorEvaluacion(Long idEvaluacion);
+    RestResponse<List<NotaResponse>> listar();
 
-    ApiResponse<List<NotaResponse>> listarPorEstudiante(Long idEstudiante);
+//    ApiResponse<List<NotaResponse>> listarPorEvaluacion(Long idEvaluacion);
+//
+//    ApiResponse<List<NotaResponse>> listarPorEstudiante(Long idEstudiante);
 
+    RestResponse<Void> eliminar(Long idNota);
 }

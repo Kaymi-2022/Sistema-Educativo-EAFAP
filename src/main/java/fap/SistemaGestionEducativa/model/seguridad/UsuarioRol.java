@@ -4,8 +4,6 @@ package fap.SistemaGestionEducativa.model.seguridad;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Table(name = "USUARIO_ROL")
 @Entity
 @NoArgsConstructor
@@ -27,12 +25,4 @@ public class UsuarioRol{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ROL", nullable = false)
     private Rol rol;
-
-    @Column(name = "FECHA_ASIGNACION", nullable = false)
-    private LocalDate fechaAsignacion;
-
-    @Column(name= "ESTADO")
-    private String estado = "Y";
-
-
 }
