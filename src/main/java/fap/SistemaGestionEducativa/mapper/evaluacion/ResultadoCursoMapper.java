@@ -21,7 +21,7 @@ public interface ResultadoCursoMapper {
 
     @Mapping(target = "idResultado", ignore = true)
     @Mapping(target = "curso", ignore = true)
-    @Mapping(target = "discente", ignore = true)
+    @Mapping(target = "estudiante", ignore = true)
     @Mapping(target = "promedioFinal", ignore = true)
     @Mapping(target = "estadoAprobacion", ignore = true)
     @Mapping(target = "fechaCierre", ignore = true)

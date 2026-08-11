@@ -13,6 +13,8 @@ import java.util.List;
 public interface PeriodoAcademicoMapper {
 
     @Mapping(target = "idPeriodo", ignore = true)
+    @Mapping(target = "estado", ignore = true)
+    @Mapping(target = "cursos", ignore = true)
     PeriodoAcademico toEntity(PeriodoAcademicoRequest request);
 
     @Mapping(source = "idPeriodo", target = "idPeriodoAcademico")

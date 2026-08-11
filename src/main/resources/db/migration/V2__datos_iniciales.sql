@@ -21,12 +21,12 @@ INSERT INTO usuario VALUES (seq_usuario.NEXTVAL,'49014567','Ana','Torres','atorr
 INSERT INTO usuario VALUES (seq_usuario.NEXTVAL,'50125678','Pedro','Salas','psalas@eafap.mil.pe','psalas','$2a$demo','Y');
 
 -- USUARIO_ROL
-INSERT INTO usuario_rol VALUES (1,1);
-INSERT INTO usuario_rol VALUES (2,2);
-INSERT INTO usuario_rol VALUES (3,2);
-INSERT INTO usuario_rol VALUES (4,3);
-INSERT INTO usuario_rol VALUES (5,3);
-INSERT INTO usuario_rol VALUES (6,3);
+INSERT INTO usuario_rol VALUES (SEQ_USUARIO_ROL.NEXTVAL,1,1);
+INSERT INTO usuario_rol VALUES (SEQ_USUARIO_ROL.NEXTVAL,2,2);
+INSERT INTO usuario_rol VALUES (SEQ_USUARIO_ROL.NEXTVAL,3,2);
+INSERT INTO usuario_rol VALUES (SEQ_USUARIO_ROL.NEXTVAL,4,3);
+INSERT INTO usuario_rol VALUES (SEQ_USUARIO_ROL.NEXTVAL,5,3);
+INSERT INTO usuario_rol VALUES (SEQ_USUARIO_ROL.NEXTVAL,6,3);
 
 -- CATEGORIAS
 INSERT INTO categoria VALUES (seq_categoria.NEXTVAL,'MORAL','Formación ética','Y');
@@ -79,7 +79,57 @@ INSERT INTO actividad VALUES(seq_actividad.NEXTVAL,'Clase Moral','CLASE',1,'Y');
 INSERT INTO actividad VALUES(seq_actividad.NEXTVAL,'Práctica Militar','PRACTICA',2,'Y');
 
 -- HORARIOS
-INSERT INTO horario VALUES(seq_horario.NEXTVAL,'LUNES',DATE '2026-09-01',1,1,1,1,2,'Y');
-INSERT INTO horario VALUES(seq_horario.NEXTVAL,'MARTES',DATE '2026-09-08',2,2,2,2,3,'Y');
+-- HORARIOS
+INSERT INTO horario
+(
+    id_horario,
+    dia_semana,
+    fecha,
+    id_semana,
+    id_aula,
+    id_bloque,
+    id_actividad,
+    id_usuario,
+    estado
+)
+VALUES
+    (
+        seq_horario.NEXTVAL,
+        'MARTES',
+        DATE '2026-09-01',
+        1,
+        1,
+        1,
+        1,
+        2,
+        'Y'
+    );
+
+INSERT INTO horario
+(
+    id_horario,
+    dia_semana,
+    fecha,
+    id_semana,
+    id_aula,
+    id_bloque,
+    id_actividad,
+    id_usuario,
+    estado
+)
+VALUES
+    (
+        seq_horario.NEXTVAL,
+        'MARTES',
+        DATE '2026-09-08',
+        2,
+        2,
+        2,
+        2,
+        3,
+        'Y'
+    );
+
+
 
 COMMIT;

@@ -13,6 +13,9 @@ import java.util.List;
 @Mapper(config = CentralMapperConfig.class)
 public interface CategoriaMapper {
 
+    @Mapping(target = "idCategoria", ignore = true)
+    @Mapping(target = "cursos", ignore = true)
+    @Mapping(target = "estado", ignore = true)
     Categoria toEntity(CategoriaRequest request);
 
     CategoriaResponse toResponse(Categoria entity);
@@ -21,6 +24,7 @@ public interface CategoriaMapper {
 
     @Mapping(target = "idCategoria", ignore = true)
     @Mapping(target = "estado", ignore = true)
+    @Mapping(target = "cursos", ignore = true)
     void updateEntity(CategoriaRequest request, @MappingTarget Categoria entity);
 
 }

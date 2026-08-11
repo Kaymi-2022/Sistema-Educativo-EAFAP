@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class RestResponse<T>{
 
     private boolean success;

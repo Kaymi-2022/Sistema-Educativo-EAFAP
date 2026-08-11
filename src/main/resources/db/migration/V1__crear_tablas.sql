@@ -3,6 +3,7 @@
 -- ==============================
 CREATE SEQUENCE seq_usuario START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_rol START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_usuario_rol START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_categoria START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_periodo START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_curso START WITH 1 INCREMENT BY 1;
@@ -54,11 +55,13 @@ CREATE TABLE rol
 
 CREATE TABLE usuario_rol
 (
-    id_usuario NUMBER,
-    id_rol     NUMBER,
-    CONSTRAINT pk_usuario_rol PRIMARY KEY (id_usuario, id_rol),
+    id_usuario_rol NUMBER NOT NULL,
+    id_usuario     NUMBER NOT NULL,
+    id_rol         NUMBER NOT NULL,
+    CONSTRAINT pk_usuario_rol PRIMARY KEY (id_usuario_rol),
     CONSTRAINT fk_ur_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario),
-    CONSTRAINT fk_ur_rol FOREIGN KEY (id_rol) REFERENCES rol (id_rol)
+    CONSTRAINT fk_ur_rol FOREIGN KEY (id_rol)REFERENCES rol (id_rol),
+    CONSTRAINT uk_usuario_rol UNIQUE (id_usuario, id_rol)
 );
 
 CREATE TABLE categoria

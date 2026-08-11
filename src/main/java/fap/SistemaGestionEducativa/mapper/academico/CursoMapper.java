@@ -32,7 +32,9 @@ public interface CursoMapper {
     @Mapping(target = "categoria", ignore = true)
     @Mapping(target = "docente", ignore = true)
     @Mapping(target = "estado", ignore = true)
-    void updateEntity(CursoRequest request, Curso curso);
+    @Mapping(target = "periodoAcademico", ignore = true)
+    @Mapping(target = "actividades", ignore = true)
+    void updateEntity(CursoRequest request,@MappingTarget Curso curso);
 
     // ==========================================
     // 3. Entidad JPA -> DTO Response

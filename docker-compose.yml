@@ -5,6 +5,8 @@ services:
     container_name: oracle19c-evaluaciones
     restart: unless-stopped
 
+
+
     ports:
       - "1521:1521"
 

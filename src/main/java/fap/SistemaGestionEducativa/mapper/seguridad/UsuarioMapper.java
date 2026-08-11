@@ -11,6 +11,11 @@ import java.util.List;
 @Mapper(config = CentralMapperConfig.class)
 public interface UsuarioMapper {
 
+    @Mapping(target = "idUsuario", ignore = true)
+    @Mapping(target = "estado", ignore = true)
+    @Mapping(target = "usuarioRoles", ignore = true)
+    @Mapping(target = "cursos", ignore = true)
+    @Mapping(target = "cursosDiscente", ignore = true)
     Usuario toEntity(UsuarioRequest request);
 
     UsuarioResponse toResponse(Usuario entity);
@@ -20,5 +25,8 @@ public interface UsuarioMapper {
     @Mapping(target = "idUsuario", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "estado", ignore = true)
+    @Mapping(target = "usuarioRoles", ignore = true)
+    @Mapping(target = "cursos", ignore = true)
+    @Mapping(target = "cursosDiscente", ignore = true)
     void updateEntity(UsuarioRequest request, @MappingTarget Usuario entity);
 }
