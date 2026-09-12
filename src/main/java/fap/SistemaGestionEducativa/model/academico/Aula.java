@@ -30,5 +30,6 @@ public class Aula {
     private String ubicacion;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
+    @Builder.Default
     private String estado = "Y";
 }

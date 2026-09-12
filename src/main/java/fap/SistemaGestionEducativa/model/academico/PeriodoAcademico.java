@@ -37,6 +37,7 @@ public class PeriodoAcademico {
     private LocalDate fechaFin;
 
     @Column(name = "ESTADO", nullable = false, length = 1)
+    @Builder.Default
     private String estado = "Y";
 
     @OneToMany(mappedBy = "periodoAcademico", fetch = FetchType.LAZY)

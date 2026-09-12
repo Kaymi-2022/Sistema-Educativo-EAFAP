@@ -27,6 +27,7 @@ public class Rol {
     private String nombreRol;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
+    @Builder.Default
     private String estado = "Y";
 
     @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true)

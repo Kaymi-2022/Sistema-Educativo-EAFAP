@@ -68,7 +68,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario updatedUsuario = usuarioRepository.save(usuario);
         UsuarioResponse response = usuarioMapper.toResponse(updatedUsuario);
         return ResponseBuilder.success(
-                ApiConstants.CREATED,
+                ApiConstants.SUCCESS,
                 MessageConstants.USER_UPDATED,
                 response
         );

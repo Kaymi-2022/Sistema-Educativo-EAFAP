@@ -52,5 +52,6 @@ public class Horario {
     private Usuario docente;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
+    @Builder.Default
     private String estado = "Y";
 }

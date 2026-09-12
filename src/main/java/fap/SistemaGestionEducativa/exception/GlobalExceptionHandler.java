@@ -4,6 +4,7 @@ import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -79,6 +80,18 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.badRequest().body(response);
 
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<RestResponse<Object>> handleAuthentication(AuthenticationException ex) {
+        RestResponse<Object> response = RestResponse.builder()
+                .success(false)
+                .code(ApiConstants.UNAUTHORIZED)
+                .message("Credenciales inválidas.")
+                .data(null)
+                .timestamp(LocalDate.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
     @ExceptionHandler(Exception.class)

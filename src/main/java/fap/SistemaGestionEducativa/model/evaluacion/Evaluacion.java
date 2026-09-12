@@ -41,5 +41,6 @@ public class Evaluacion {
     private LocalDate fecha;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
+    @Builder.Default
     private String estado = "Y";
 }

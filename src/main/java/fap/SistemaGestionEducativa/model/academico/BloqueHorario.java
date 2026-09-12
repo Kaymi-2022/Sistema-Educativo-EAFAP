@@ -27,5 +27,6 @@ public class BloqueHorario {
     private String horaFin;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
+    @Builder.Default
     private String estado = "Y";
 }

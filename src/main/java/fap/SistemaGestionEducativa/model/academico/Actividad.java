@@ -31,5 +31,6 @@ public class Actividad {
     private Curso curso;
 
     @Column(name = "ESTADO", length = 1, nullable = false)
+    @Builder.Default
     private String estado = "Y";
 }
