@@ -16,6 +16,7 @@ import fap.SistemaGestionEducativa.repository.evaluacion.EvaluacionRepository;
 import fap.SistemaGestionEducativa.repository.evaluacion.NotaRepository;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.NotaService;
+import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -36,6 +37,7 @@ public class NotaServiceImpl implements NotaService {
     private final UsuarioRepository usuarioRepository;
     private final CursoDiscenteRepository cursoDiscenteRepository;
     private final NotaMapper mapper;
+    private final UsuarioRolValidator usuarioRolValidator;
 
     /**
      * Registra una nota para un estudiante.
@@ -47,6 +49,7 @@ public class NotaServiceImpl implements NotaService {
         Evaluacion evaluacion = obtenerEvaluacion(request.getIdEvaluacion());
 
         Usuario estudiante = obtenerEstudiante(request.getIdDiscente());
+        usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
 
         validarEvaluacionActiva(evaluacion);
 
@@ -96,6 +99,7 @@ public class NotaServiceImpl implements NotaService {
         Evaluacion evaluacion = obtenerEvaluacion(request.getIdEvaluacion());
 
         Usuario estudiante = obtenerEstudiante(request.getIdDiscente());
+        usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
 
         validarNotaActiva(nota);
 

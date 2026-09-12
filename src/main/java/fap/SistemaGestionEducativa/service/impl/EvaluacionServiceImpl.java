@@ -81,7 +81,7 @@ public class EvaluacionServiceImpl implements EvaluacionService {
 
         evaluacion.setNombre(request.getNombre());
         evaluacion.setTipo(request.getTipo());
-        evaluacion.setPeso(BigDecimal.valueOf(request.getPeso()));
+        evaluacion.setPeso(request.getPeso());
         evaluacion.setFecha(request.getFecha());
         evaluacion.setCurso(curso);
 

@@ -17,6 +17,7 @@ import fap.SistemaGestionEducativa.repository.evaluacion.NotaRepository;
 import fap.SistemaGestionEducativa.repository.evaluacion.ResultadoCursoRepository;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.ResultadoCursoService;
+import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -40,6 +41,7 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
     private final CursoDiscenteRepository cursoDiscenteRepository;
     private final NotaRepository notaRepository;
     private final ResultadoCursoMapper mapper;
+    private final UsuarioRolValidator usuarioRolValidator;
 
     /**
      * Genera el resultado final de un estudiante
@@ -53,6 +55,8 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
 
         Usuario estudiante =
                 obtenerEstudiante(request.getIdDiscente());
+
+        usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
 
         validarCursoActivo(curso);
 
@@ -390,10 +394,10 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
         if (promedioFinal.compareTo(
                 new BigDecimal("11")) >= 0) {
 
-            return "A";
+            return "APROBADO";
         }
 
-        return "D";
+        return "DESAPROBADO";
     }
 
     /**

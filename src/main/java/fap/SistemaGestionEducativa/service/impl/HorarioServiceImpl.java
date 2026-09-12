@@ -11,6 +11,7 @@ import fap.SistemaGestionEducativa.model.seguridad.Usuario;
 import fap.SistemaGestionEducativa.repository.academico.*;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.HorarioService;
+import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -33,6 +34,7 @@ public class HorarioServiceImpl implements HorarioService {
     private final ActividadRepository actividadRepository;
     private final UsuarioRepository usuarioRepository;
     private final HorarioMapper mapper;
+    private final UsuarioRolValidator usuarioRolValidator;
 
     @Override
     public RestResponse<HorarioResponse> registrar(HorarioRequest request) {
@@ -41,6 +43,7 @@ public class HorarioServiceImpl implements HorarioService {
         BloqueHorario bloque = obtenerBloqueActivo(request.getIdBloque());
         Actividad actividad = obtenerActividadActiva(request.getIdActividad());
         Usuario docente = obtenerDocenteActivo(request.getIdInstructor());
+        usuarioRolValidator.requireDocente(docente.getIdUsuario());
 
         validarConflictoHorario(request.getFecha(), bloque.getIdBloque(), aula.getIdAula(), docente.getIdUsuario(), null);
 
@@ -65,6 +68,7 @@ public class HorarioServiceImpl implements HorarioService {
         BloqueHorario bloque = obtenerBloqueActivo(request.getIdBloque());
         Actividad actividad = obtenerActividadActiva(request.getIdActividad());
         Usuario docente = obtenerDocenteActivo(request.getIdInstructor());
+        usuarioRolValidator.requireDocente(docente.getIdUsuario());
 
         if (!Objects.equals(horario.getFecha(), request.getFecha())
                 || !Objects.equals(horario.getBloqueHorario().getIdBloque(), bloque.getIdBloque())
@@ -109,7 +113,6 @@ public class HorarioServiceImpl implements HorarioService {
     @Override
     @Transactional(readOnly = true)
     public RestResponse<List<HorarioResponse>> listarPorDocente(Long idDocente) {
-        obtenerDocenteActivo(idDocente);
         return ResponseBuilder.success(
                 ApiConstants.SUCCESS,
                 MessageConstants.SUCCESS,

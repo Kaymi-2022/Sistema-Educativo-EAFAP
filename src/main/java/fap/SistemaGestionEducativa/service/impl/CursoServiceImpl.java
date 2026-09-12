@@ -16,6 +16,7 @@ import fap.SistemaGestionEducativa.repository.academico.CursoRepository;
 import fap.SistemaGestionEducativa.repository.academico.PeriodoAcademicoRepository;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.CursoService;
+import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -36,6 +37,7 @@ public class CursoServiceImpl implements CursoService {
     private final UsuarioRepository usuarioRepository;
     private final PeriodoAcademicoRepository periodoAcademicoRepository;
     private final CursoMapper mapper;
+    private final UsuarioRolValidator usuarioRolValidator;
 
     @Override
     public RestResponse<CursoResponse> registrar(CursoRequest request) {
@@ -43,6 +45,7 @@ public class CursoServiceImpl implements CursoService {
         Categoria categoria = obtenerCategoria(request.getIdCategoria());
 
         Usuario docente = obtenerDocente(request.getIdDocente());
+        usuarioRolValidator.requireDocente(docente.getIdUsuario());
         PeriodoAcademico periodoAcademico = obtenerPeriodoAcademico(request.getIdPeriodoAcademico());
 
         validarCategoriaActiva(categoria);
@@ -74,6 +77,7 @@ public class CursoServiceImpl implements CursoService {
         Categoria categoria = obtenerCategoria(request.getIdCategoria());
 
         Usuario docente = obtenerDocente(request.getIdDocente());
+        usuarioRolValidator.requireDocente(docente.getIdUsuario());
         PeriodoAcademico periodoAcademico = obtenerPeriodoAcademico(request.getIdPeriodoAcademico());
 
         validarCategoriaActiva(categoria);

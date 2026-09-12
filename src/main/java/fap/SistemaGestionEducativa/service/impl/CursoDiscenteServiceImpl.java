@@ -11,6 +11,7 @@ import fap.SistemaGestionEducativa.repository.academico.CursoDiscenteRepository;
 import fap.SistemaGestionEducativa.repository.academico.CursoRepository;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.CursoDiscenteService;
+import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.exception.BusinessException;
 import fap.SistemaGestionEducativa.exception.DuplicateResourceException;
 import fap.SistemaGestionEducativa.exception.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class CursoDiscenteServiceImpl implements CursoDiscenteService {
     private final CursoRepository cursoRepository;
     private final UsuarioRepository usuarioRepository;
     private final CursoDiscenteMapper mapper;
+    private final UsuarioRolValidator usuarioRolValidator;
 
     /**
      * Registra la matrícula de un estudiante en un curso.
@@ -43,6 +45,7 @@ public class CursoDiscenteServiceImpl implements CursoDiscenteService {
         Curso curso = obtenerCurso(request.getIdCurso());
 
         Usuario estudiante = obtenerEstudiante(request.getIdDiscente());
+        usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
 
         validarCursoActivo(curso);
 

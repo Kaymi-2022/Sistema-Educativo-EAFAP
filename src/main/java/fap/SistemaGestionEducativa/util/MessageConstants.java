@@ -67,6 +67,7 @@ public final class MessageConstants {
     public static final String PERIOD_INVALID_RANGE = "La fecha de inicio debe ser anterior a la fecha fin.";
     public static final String TEACHER_NOT_FOUND = "Docente no encontrado.";
     public static final String TEACHER_INACTIVE = "El docente se encuentra inactivo.";
+    public static final String TEACHER_ROLE_REQUIRED = "El usuario seleccionado no tiene el rol DOCENTE.";
     public static final String COURSE_INACTIVE = "El curso se encuentra inactivo.";
     public static final String COURSE_ALREADY_EXISTS = "El curso ya existe.";
 
@@ -132,6 +133,7 @@ public final class MessageConstants {
     public static final String ENROLLMENT_NOT_FOUND = "Matrícula no encontrada.";
     public static final String STUDENT_NOT_FOUND = "Estudiante no encontrado.";
     public static final String STUDENT_INACTIVE = "El estudiante se encuentra inactivo.";
+    public static final String STUDENT_ROLE_REQUIRED = "El usuario seleccionado no tiene el rol DISCENTE.";
     public static final String ENROLLMENT_ALREADY_EXISTS = "La matrícula ya existe.";
     public static final String ENROLLMENT_INACTIVE = "La matrícula se encuentra inactiva.";
     public static final String EVALUATION_UPDATED = "Evaluación actualizada correctamente.";
