@@ -17,6 +17,7 @@ import fap.SistemaGestionEducativa.repository.evaluacion.ResultadoCursoRepositor
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.reporte.ReporteService;
 import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
+import fap.SistemaGestionEducativa.service.security.CurrentUserService;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -39,6 +40,7 @@ public class ReporteServiceImpl implements ReporteService {
     private final NotaRepository notaRepository;
     private final ResultadoCursoRepository resultadoCursoRepository;
     private final UsuarioRolValidator usuarioRolValidator;
+    private final CurrentUserService currentUserService;
 
     @Override
     public RestResponse<ReporteAcademicoResponse> obtenerHistorialAcademico(String codigoEstudiante) {
@@ -103,6 +105,7 @@ public class ReporteServiceImpl implements ReporteService {
         }
         Usuario estudiante = usuario.orElseThrow(() -> new ResourceNotFoundException(MessageConstants.STUDENT_NOT_FOUND));
         usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
+        currentUserService.requireSelfOrAdmin(estudiante.getIdUsuario());
         return estudiante;
     }
 

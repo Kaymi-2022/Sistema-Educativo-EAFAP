@@ -17,6 +17,8 @@ import fap.SistemaGestionEducativa.repository.evaluacion.NotaRepository;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.NotaService;
 import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
+import fap.SistemaGestionEducativa.service.security.CourseOwnershipValidator;
+import fap.SistemaGestionEducativa.service.security.CurrentUserService;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -38,6 +40,8 @@ public class NotaServiceImpl implements NotaService {
     private final CursoDiscenteRepository cursoDiscenteRepository;
     private final NotaMapper mapper;
     private final UsuarioRolValidator usuarioRolValidator;
+    private final CourseOwnershipValidator courseOwnershipValidator;
+    private final CurrentUserService currentUserService;
 
     /**
      * Registra una nota para un estudiante.
@@ -50,6 +54,7 @@ public class NotaServiceImpl implements NotaService {
 
         Usuario estudiante = obtenerEstudiante(request.getIdDiscente());
         usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
+        courseOwnershipValidator.requireTeacherOwns(evaluacion.getCurso());
 
         validarEvaluacionActiva(evaluacion);
 
@@ -100,6 +105,7 @@ public class NotaServiceImpl implements NotaService {
 
         Usuario estudiante = obtenerEstudiante(request.getIdDiscente());
         usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
+        courseOwnershipValidator.requireTeacherOwns(evaluacion.getCurso());
 
         validarNotaActiva(nota);
 
@@ -145,6 +151,10 @@ public class NotaServiceImpl implements NotaService {
     public RestResponse<NotaResponse> obtenerPorId(Long idNota) {
 
         Nota nota = obtenerNota(idNota);
+        if (currentUserService.hasRole("DOCENTE") && !currentUserService.hasRole("ADMIN")) {
+            courseOwnershipValidator.requireTeacherOwns(nota.getEvaluacion().getCurso());
+        }
+        currentUserService.requireOwnStudent(nota.getEstudiante().getIdUsuario());
 
         return ResponseBuilder.success(
                 ApiConstants.SUCCESS,
@@ -159,8 +169,19 @@ public class NotaServiceImpl implements NotaService {
     @Override
     @Transactional(readOnly = true)
     public RestResponse<List<NotaResponse>> listar() {
-
-        List<NotaResponse> notas = repository.findAllByEstado("Y")
+        List<Nota> notasActivas = repository.findAllByEstado("Y");
+        if (currentUserService.hasRole("DISCENTE") && !currentUserService.hasRole("ADMIN") && !currentUserService.hasRole("DOCENTE")) {
+            Long idUsuario = currentUserService.requireCurrentUser().getIdUsuario();
+            notasActivas = notasActivas.stream().filter(nota -> nota.getEstudiante() != null
+                    && idUsuario.equals(nota.getEstudiante().getIdUsuario())).toList();
+        } else if (currentUserService.hasRole("DOCENTE") && !currentUserService.hasRole("ADMIN")) {
+            Long idUsuario = currentUserService.requireCurrentUser().getIdUsuario();
+            notasActivas = notasActivas.stream().filter(nota -> nota.getEvaluacion() != null
+                    && nota.getEvaluacion().getCurso() != null
+                    && nota.getEvaluacion().getCurso().getDocente() != null
+                    && idUsuario.equals(nota.getEvaluacion().getCurso().getDocente().getIdUsuario())).toList();
+        }
+        List<NotaResponse> notas = notasActivas
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
@@ -179,6 +200,8 @@ public class NotaServiceImpl implements NotaService {
 
         Nota nota =
                 obtenerNota(idNota);
+
+        courseOwnershipValidator.requireTeacherOwns(nota.getEvaluacion().getCurso());
 
         validarNotaActiva(nota);
 

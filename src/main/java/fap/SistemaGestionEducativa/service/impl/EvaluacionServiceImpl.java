@@ -13,6 +13,8 @@ import fap.SistemaGestionEducativa.model.evaluacion.Evaluacion;
 import fap.SistemaGestionEducativa.repository.academico.CursoRepository;
 import fap.SistemaGestionEducativa.repository.evaluacion.EvaluacionRepository;
 import fap.SistemaGestionEducativa.service.business.EvaluacionService;
+import fap.SistemaGestionEducativa.service.security.CourseOwnershipValidator;
+import fap.SistemaGestionEducativa.service.security.CurrentUserService;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -31,6 +33,8 @@ public class EvaluacionServiceImpl implements EvaluacionService {
     private final EvaluacionRepository repository;
     private final CursoRepository cursoRepository;
     private final EvaluacionMapper mapper;
+    private final CourseOwnershipValidator courseOwnershipValidator;
+    private final CurrentUserService currentUserService;
 
     /**
      * Registra una evaluación.
@@ -39,6 +43,7 @@ public class EvaluacionServiceImpl implements EvaluacionService {
     public RestResponse<EvaluacionResponse> registrar(EvaluacionRequest request) {
 
         Curso curso = obtenerCurso(request.getIdCurso());
+        courseOwnershipValidator.requireTeacherOwns(curso);
 
         validarCursoActivo(curso);
 
@@ -71,6 +76,7 @@ public class EvaluacionServiceImpl implements EvaluacionService {
 
         Curso curso =
                 obtenerCurso(request.getIdCurso());
+        courseOwnershipValidator.requireTeacherOwns(curso);
 
         validarCursoActivo(curso);
 
@@ -104,6 +110,10 @@ public class EvaluacionServiceImpl implements EvaluacionService {
 
         Evaluacion evaluacion = obtenerEvaluacion(idEvaluacion);
 
+        if (currentUserService.hasRole("DOCENTE") && !currentUserService.hasRole("ADMIN")) {
+            courseOwnershipValidator.requireTeacherOwns(evaluacion.getCurso());
+        }
+
         return ResponseBuilder.success(
                 ApiConstants.SUCCESS,
                 MessageConstants.SUCCESS,
@@ -118,7 +128,14 @@ public class EvaluacionServiceImpl implements EvaluacionService {
     @Transactional(readOnly = true)
     public RestResponse<List<EvaluacionResponse>> listar() {
 
-        List<EvaluacionResponse> evaluaciones = repository.findAllByEstado("Y")
+        var evaluacionesActivas = repository.findAllByEstado("Y");
+        if (currentUserService.hasRole("DOCENTE") && !currentUserService.hasRole("ADMIN")) {
+            Long idUsuario = currentUserService.requireCurrentUser().getIdUsuario();
+            evaluacionesActivas = evaluacionesActivas.stream().filter(evaluacion -> evaluacion.getCurso() != null
+                    && evaluacion.getCurso().getDocente() != null
+                    && idUsuario.equals(evaluacion.getCurso().getDocente().getIdUsuario())).toList();
+        }
+        List<EvaluacionResponse> evaluaciones = evaluacionesActivas
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
@@ -138,6 +155,8 @@ public class EvaluacionServiceImpl implements EvaluacionService {
 
         Evaluacion evaluacion =
                 obtenerEvaluacion(idEvaluacion);
+
+        courseOwnershipValidator.requireTeacherOwns(evaluacion.getCurso());
 
         validarEvaluacionActiva(evaluacion);
 

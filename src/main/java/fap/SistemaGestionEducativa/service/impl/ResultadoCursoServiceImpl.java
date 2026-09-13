@@ -18,6 +18,8 @@ import fap.SistemaGestionEducativa.repository.evaluacion.ResultadoCursoRepositor
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.ResultadoCursoService;
 import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
+import fap.SistemaGestionEducativa.service.security.CourseOwnershipValidator;
+import fap.SistemaGestionEducativa.service.security.CurrentUserService;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
@@ -42,6 +44,8 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
     private final NotaRepository notaRepository;
     private final ResultadoCursoMapper mapper;
     private final UsuarioRolValidator usuarioRolValidator;
+    private final CourseOwnershipValidator courseOwnershipValidator;
+    private final CurrentUserService currentUserService;
 
     /**
      * Genera el resultado final de un estudiante
@@ -57,6 +61,7 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
                 obtenerEstudiante(request.getIdDiscente());
 
         usuarioRolValidator.requireDiscente(estudiante.getIdUsuario());
+        courseOwnershipValidator.requireTeacherOwns(curso);
 
         validarCursoActivo(curso);
 
@@ -114,6 +119,10 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
     public RestResponse<ResultadoCursoResponse> obtenerPorId(Long idResultado) {
 
         ResultadoCurso resultado = obtenerResultado(idResultado);
+        if (currentUserService.hasRole("DOCENTE") && !currentUserService.hasRole("ADMIN")) {
+            courseOwnershipValidator.requireTeacherOwns(resultado.getCurso());
+        }
+        currentUserService.requireOwnStudent(resultado.getEstudiante().getIdUsuario());
 
         return ResponseBuilder.success(
                 ApiConstants.SUCCESS,
@@ -128,6 +137,11 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
      */
     @Override
     public RestResponse<ResultadoCursoResponse> obtenerPorCursoxDiscente(Long idCurso, Long idDiscente) {
+
+        currentUserService.requireOwnStudent(idDiscente);
+        if (currentUserService.hasRole("DOCENTE") && !currentUserService.hasRole("ADMIN")) {
+            courseOwnershipValidator.requireTeacherOwns(obtenerCurso(idCurso));
+        }
 
         ResultadoCurso resultado =
                 repository.findByCursoIdCursoAndEstudianteIdUsuarioAndEstado(idCurso, idDiscente, "Y")
@@ -150,7 +164,18 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
     @Transactional(readOnly = true)
     public RestResponse<List<ResultadoCursoResponse>> listar() {
 
-        List<ResultadoCursoResponse> resultados =repository.findAllByEstado("Y")
+        List<ResultadoCurso> resultadosActivos = repository.findAllByEstado("Y");
+        if (currentUserService.hasRole("DISCENTE") && !currentUserService.hasRole("ADMIN") && !currentUserService.hasRole("DOCENTE")) {
+            Long idUsuario = currentUserService.requireCurrentUser().getIdUsuario();
+            resultadosActivos = resultadosActivos.stream().filter(resultado -> resultado.getEstudiante() != null
+                    && idUsuario.equals(resultado.getEstudiante().getIdUsuario())).toList();
+        } else if (currentUserService.hasRole("DOCENTE") && !currentUserService.hasRole("ADMIN")) {
+            Long idUsuario = currentUserService.requireCurrentUser().getIdUsuario();
+            resultadosActivos = resultadosActivos.stream().filter(resultado -> resultado.getCurso() != null
+                    && resultado.getCurso().getDocente() != null
+                    && idUsuario.equals(resultado.getCurso().getDocente().getIdUsuario())).toList();
+        }
+        List<ResultadoCursoResponse> resultados = resultadosActivos
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
@@ -169,6 +194,8 @@ public class ResultadoCursoServiceImpl implements ResultadoCursoService {
 
         ResultadoCurso resultado =
                 obtenerResultado(idResultado);
+
+        courseOwnershipValidator.requireTeacherOwns(resultado.getCurso());
 
         validarResultadoActivo(resultado);
 

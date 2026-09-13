@@ -25,6 +25,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -62,7 +63,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/seguridad/**").hasRole("ADMIN")
-                        .requestMatchers("/api/academico/**", "/api/evaluacion/**", "/api/dashboard/**", "/api/reportes/**").authenticated()
+                        .requestMatchers("/api/dashboard/**").hasAnyRole("ADMIN", "DOCENTE")
+                        .requestMatchers(HttpMethod.POST, "/api/academico/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/academico/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/academico/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/evaluacion/**").hasAnyRole("ADMIN", "DOCENTE")
+                        .requestMatchers(HttpMethod.PUT, "/api/evaluacion/**").hasAnyRole("ADMIN", "DOCENTE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/evaluacion/**").hasAnyRole("ADMIN", "DOCENTE")
+                        .requestMatchers("/api/academico/**", "/api/evaluacion/**", "/api/reportes/**").authenticated()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(basic -> basic.disable())
