@@ -52,9 +52,11 @@ public class Usuario {
     private String password;
 
     @Column(name = "ESTADO", nullable = false, length = 1)
+    @Builder.Default
     private String estado = "Y";
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<UsuarioRol> usuarioRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, orphanRemoval = true)

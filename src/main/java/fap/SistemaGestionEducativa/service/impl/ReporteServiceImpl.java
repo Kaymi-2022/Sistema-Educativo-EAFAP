@@ -172,8 +172,8 @@ public class ReporteServiceImpl implements ReporteService {
                 .categoria(curso.getCategoria() != null ? curso.getCategoria().getNombre() : null)
                 .docente(curso.getDocente() != null ? formatearNombre(curso.getDocente()) : null)
                 .periodoAcademico(curso.getPeriodoAcademico() != null ? curso.getPeriodoAcademico().getNombre() : null)
-                .promedioFinal(resultado.map(ResultadoCurso::getPromedioFinal).orElse(null))
-                .estadoAprobacion(resultado.map(ResultadoCurso::getEstadoAprobacion).orElse(null))
+                .promedioFinal(resultado.isPresent() ? resultado.get().getPromedioFinal() : null)
+                .estadoAprobacion(resultado.isPresent() ? resultado.get().getEstadoAprobacion() : null)
                 .evaluaciones(evaluaciones)
                 .build();
     }

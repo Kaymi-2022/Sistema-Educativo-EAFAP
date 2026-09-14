@@ -31,5 +31,6 @@ public class Rol {
     private String estado = "Y";
 
     @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<UsuarioRol> usuarioRoles = new ArrayList<>();
 }

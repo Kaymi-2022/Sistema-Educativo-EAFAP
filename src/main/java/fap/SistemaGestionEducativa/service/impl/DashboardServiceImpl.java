@@ -132,7 +132,7 @@ public class DashboardServiceImpl implements DashboardService {
         LocalDate hoy = LocalDate.now();
         return evaluacionRepository.findAllByEstado("Y").stream()
                 .filter(evaluacion -> evaluacion.getFecha() != null && !evaluacion.getFecha().isBefore(hoy))
-                .sorted(Comparator.comparing(Evaluacion::getFecha))
+                .sorted(Comparator.comparing((Evaluacion evaluacion) -> evaluacion.getFecha()))
                 .map(evaluacion -> EvaluacionPendienteResponse.builder()
                         .idEvaluacion(evaluacion.getIdEvaluacion())
                         .evaluacion(evaluacion.getNombre())

@@ -5,7 +5,6 @@ import fap.SistemaGestionEducativa.util.ApiConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,101 +12,103 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.LocalDate;
 import java.util.List;
 
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<RestResponse<Object>> handleNotFound(ResourceNotFoundException ex){
+        @ExceptionHandler(ResourceNotFoundException.class)
+        public ResponseEntity<RestResponse<Object>> handleNotFound(ResourceNotFoundException ex) {
 
-        RestResponse<Object> response = RestResponse.builder()
-                .success(false)
-                .code(ApiConstants.NOT_FOUND)
-                .message(ex.getMessage())
-                .data(null)
-                .timestamp(LocalDate.now())
-                .build();
+                RestResponse<Object> response = RestResponse.builder()
+                                .success(false)
+                                .code(ApiConstants.NOT_FOUND)
+                                .message(ex.getMessage())
+                                .data(null)
+                                .timestamp(LocalDate.now())
+                                .build();
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
-    }
+        }
 
-    @ExceptionHandler(DuplicateResourceException.class)
-    public ResponseEntity<RestResponse<Object>> handleDuplicate(DuplicateResourceException ex){
+        @ExceptionHandler(DuplicateResourceException.class)
+        public ResponseEntity<RestResponse<Object>> handleDuplicate(DuplicateResourceException ex) {
 
-        RestResponse<Object> response = RestResponse.builder()
-                .success(false)
-                .code(ApiConstants.CONFLICT)
-                .message(ex.getMessage())
-                .data(null)
-                .timestamp(LocalDate.now())
-                .build();
+                RestResponse<Object> response = RestResponse.builder()
+                                .success(false)
+                                .code(ApiConstants.CONFLICT)
+                                .message(ex.getMessage())
+                                .data(null)
+                                .timestamp(LocalDate.now())
+                                .build();
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
 
-    }
+        }
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<RestResponse<Object>> handleBusiness(BusinessException ex){
+        @ExceptionHandler(BusinessException.class)
+        public ResponseEntity<RestResponse<Object>> handleBusiness(BusinessException ex) {
 
-        RestResponse<Object> response = RestResponse.builder()
-                .success(false)
-                .code(ApiConstants.BAD_REQUEST)
-                .message(ex.getMessage())
-                .data(null)
-                .timestamp(LocalDate.now())
-                .build();
+                RestResponse<Object> response = RestResponse.builder()
+                                .success(false)
+                                .code(ApiConstants.BAD_REQUEST)
+                                .message(ex.getMessage())
+                                .data(null)
+                                .timestamp(LocalDate.now())
+                                .build();
 
-        return ResponseEntity.badRequest().body(response);
+                return ResponseEntity.badRequest().body(response);
 
-    }
+        }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<RestResponse<Object>> handleValidation(MethodArgumentNotValidException ex){
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<RestResponse<Object>> handleValidation(MethodArgumentNotValidException ex) {
 
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(FieldError::getDefaultMessage)
-                .toList();
+                List<String> errors = ex.getBindingResult()
+                                .getFieldErrors()
+                                .stream()
+                                .map(error -> {
+                                        String message = error.getDefaultMessage();
+                                        return message != null ? message : "Error de validación.";
+                                })
+                                .toList();
 
-        RestResponse<Object> response = RestResponse.builder()
-                .success(false)
-                .code(ApiConstants.BAD_REQUEST)
-                .message("Error de validación en los datos de entrada.")
-                .data(errors)
-                .timestamp(LocalDate.now())
-                .build();
-        return ResponseEntity.badRequest().body(response);
+                RestResponse<Object> response = RestResponse.builder()
+                                .success(false)
+                                .code(ApiConstants.BAD_REQUEST)
+                                .message("Error de validación en los datos de entrada.")
+                                .data(errors)
+                                .timestamp(LocalDate.now())
+                                .build();
+                return ResponseEntity.badRequest().body(response);
 
-    }
+        }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<RestResponse<Object>> handleAuthentication(AuthenticationException ex) {
-        RestResponse<Object> response = RestResponse.builder()
-                .success(false)
-                .code(ApiConstants.UNAUTHORIZED)
-                .message("Credenciales inválidas.")
-                .data(null)
-                .timestamp(LocalDate.now())
-                .build();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-    }
+        @ExceptionHandler(AuthenticationException.class)
+        public ResponseEntity<RestResponse<Object>> handleAuthentication(AuthenticationException ex) {
+                RestResponse<Object> response = RestResponse.builder()
+                                .success(false)
+                                .code(ApiConstants.UNAUTHORIZED)
+                                .message("Credenciales inválidas.")
+                                .data(null)
+                                .timestamp(LocalDate.now())
+                                .build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<RestResponse<Object>> handleException(Exception ex){
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<RestResponse<Object>> handleException(Exception ex) {
 
-        RestResponse<Object> response = RestResponse.builder()
-                .success(false)
-                .code(ApiConstants.INTERNAL_SERVER_ERROR)
-                .message("Ocurrió un error inesperado en el servidor.")
-                .data(null)
-                .timestamp(LocalDate.now())
-                .build();
+                RestResponse<Object> response = RestResponse.builder()
+                                .success(false)
+                                .code(ApiConstants.INTERNAL_SERVER_ERROR)
+                                .message("Ocurrió un error inesperado en el servidor.")
+                                .data(null)
+                                .timestamp(LocalDate.now())
+                                .build();
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(response);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body(response);
 
-    }
+        }
 
 }

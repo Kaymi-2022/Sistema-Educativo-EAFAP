@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,7 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails) {
         List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
+                .map(authority -> authority.getAuthority())
                 .map(role -> role.startsWith("ROLE_") ? role.substring(5) : role)
                 .toList();
         Date issuedAt = new Date();
@@ -41,12 +40,12 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, claims -> claims.getSubject());
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         return userDetails.getUsername().equalsIgnoreCase(extractUsername(token))
-                && extractClaim(token, Claims::getExpiration).after(new Date());
+                && extractClaim(token, claims -> claims.getExpiration()).after(new Date());
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> resolver) {
