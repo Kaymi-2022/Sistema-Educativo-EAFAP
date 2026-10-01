@@ -3,7 +3,7 @@ package fap.SistemaGestionEducativa.controller.seguridad;
 import fap.SistemaGestionEducativa.dto.request.academico.LoginRequest;
 import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.dto.response.seguridad.LoginResponse;
-import fap.SistemaGestionEducativa.service.security.JwtService;
+import fap.SistemaGestionEducativa.security.jwt.JwtService;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;
 import jakarta.validation.Valid;

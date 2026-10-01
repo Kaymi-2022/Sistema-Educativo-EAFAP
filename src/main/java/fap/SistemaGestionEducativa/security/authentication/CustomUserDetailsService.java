@@ -1,4 +1,4 @@
-package fap.SistemaGestionEducativa.service.security;
+package fap.SistemaGestionEducativa.security.authentication;
 
 import fap.SistemaGestionEducativa.model.seguridad.Usuario;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Credenciales inválidas."));
+
         if (!"Y".equalsIgnoreCase(usuario.getEstado())) {
             throw new UsernameNotFoundException("El usuario se encuentra inactivo.");
         }
@@ -28,6 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .filter(ur -> ur.getRol() != null && "Y".equalsIgnoreCase(ur.getRol().getEstado()))
                 .map(ur -> new SimpleGrantedAuthority("ROLE_" + ur.getRol().getNombreRol().toUpperCase(Locale.ROOT)))
                 .toList();
+                
         return User.withUsername(usuario.getUsername())
                 .password(usuario.getPassword())
                 .authorities(authorities)

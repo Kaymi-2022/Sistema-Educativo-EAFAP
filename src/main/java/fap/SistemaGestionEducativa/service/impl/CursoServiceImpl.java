@@ -16,7 +16,7 @@ import fap.SistemaGestionEducativa.repository.academico.CursoRepository;
 import fap.SistemaGestionEducativa.repository.academico.PeriodoAcademicoRepository;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.CursoService;
-import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
+import fap.SistemaGestionEducativa.security.authorization.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;

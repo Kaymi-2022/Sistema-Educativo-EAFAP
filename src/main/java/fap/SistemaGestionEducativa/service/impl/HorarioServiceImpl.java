@@ -11,7 +11,7 @@ import fap.SistemaGestionEducativa.model.seguridad.Usuario;
 import fap.SistemaGestionEducativa.repository.academico.*;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.HorarioService;
-import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
+import fap.SistemaGestionEducativa.security.authorization.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import fap.SistemaGestionEducativa.util.MessageConstants;
 import fap.SistemaGestionEducativa.util.ResponseBuilder;

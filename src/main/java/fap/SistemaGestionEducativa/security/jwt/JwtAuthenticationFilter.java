@@ -1,7 +1,7 @@
-package fap.SistemaGestionEducativa.security;
+package fap.SistemaGestionEducativa.security.jwt;
 
-import fap.SistemaGestionEducativa.service.security.CustomUserDetailsService;
-import fap.SistemaGestionEducativa.service.security.JwtService;
+import fap.SistemaGestionEducativa.security.authentication.CustomUserDetailsService;
+import fap.SistemaGestionEducativa.security.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

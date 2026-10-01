@@ -1,6 +1,8 @@
-package fap.SistemaGestionEducativa.Config;
+package fap.SistemaGestionEducativa.security.config;
 
-import fap.SistemaGestionEducativa.security.JwtAuthenticationFilter;
+import fap.SistemaGestionEducativa.security.jwt.JwtAuthenticationFilter;
+import fap.SistemaGestionEducativa.security.handler.RestAccessDeniedHandler;
+import fap.SistemaGestionEducativa.security.handler.RestAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,9 +27,9 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
@@ -37,12 +39,12 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-        @Bean
+
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
@@ -63,6 +65,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/seguridad/**").hasRole("ADMIN")
                         .requestMatchers("/api/dashboard/**").hasAnyRole("ADMIN", "DOCENTE")
+                        .requestMatchers("/api/certificacion/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/academico/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/academico/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/academico/**").hasRole("ADMIN")

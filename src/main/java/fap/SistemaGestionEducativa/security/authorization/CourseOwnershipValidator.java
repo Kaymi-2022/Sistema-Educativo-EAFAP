@@ -1,5 +1,6 @@
-package fap.SistemaGestionEducativa.service.security;
+package fap.SistemaGestionEducativa.security.authorization;
 
+import fap.SistemaGestionEducativa.security.authentication.CurrentUserService;
 import fap.SistemaGestionEducativa.model.academico.Curso;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;

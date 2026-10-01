@@ -1,4 +1,4 @@
-package fap.SistemaGestionEducativa.service.security;
+package fap.SistemaGestionEducativa.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

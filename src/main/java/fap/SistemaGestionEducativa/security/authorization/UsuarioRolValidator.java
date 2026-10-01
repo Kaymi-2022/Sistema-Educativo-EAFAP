@@ -1,4 +1,4 @@
-package fap.SistemaGestionEducativa.service.security;
+package fap.SistemaGestionEducativa.security.authorization;
 
 import fap.SistemaGestionEducativa.exception.BusinessException;
 import fap.SistemaGestionEducativa.exception.ResourceNotFoundException;

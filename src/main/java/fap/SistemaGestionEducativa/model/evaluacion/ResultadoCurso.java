@@ -36,7 +36,7 @@ public class ResultadoCurso {
     @Column(name = "PROMEDIO_FINAL", nullable = false)
     private BigDecimal promedioFinal;
 
-    @Column(name = "ESTADO_APROBACION", length = 1, nullable = false)
+    @Column(name = "ESTADO_APROBACION", length = 20, nullable = false)
     private String estadoAprobacion;
 
     @Column(name = "FECHA_CIERRE", nullable = false)

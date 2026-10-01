@@ -1,6 +1,6 @@
-package fap.SistemaGestionEducativa.Config;
+package fap.SistemaGestionEducativa.security.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import fap.SistemaGestionEducativa.dto.response.RestResponse;
 import fap.SistemaGestionEducativa.util.ApiConstants;
 import jakarta.servlet.http.HttpServletRequest;

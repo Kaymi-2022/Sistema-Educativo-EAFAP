@@ -11,7 +11,7 @@ import fap.SistemaGestionEducativa.repository.academico.CursoDiscenteRepository;
 import fap.SistemaGestionEducativa.repository.academico.CursoRepository;
 import fap.SistemaGestionEducativa.repository.seguridad.UsuarioRepository;
 import fap.SistemaGestionEducativa.service.business.CursoDiscenteService;
-import fap.SistemaGestionEducativa.service.security.UsuarioRolValidator;
+import fap.SistemaGestionEducativa.security.authorization.UsuarioRolValidator;
 import fap.SistemaGestionEducativa.exception.BusinessException;
 import fap.SistemaGestionEducativa.exception.DuplicateResourceException;
 import fap.SistemaGestionEducativa.exception.ResourceNotFoundException;
