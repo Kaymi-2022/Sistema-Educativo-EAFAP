@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.mapper.seguridad;
 
-import fap.SistemaGestionEducativa.Config.CentralMapperConfig;
+import fap.SistemaGestionEducativa.config.CentralMapperConfig;
 import fap.SistemaGestionEducativa.dto.request.seguridad.UsuarioRolRequest;
 import fap.SistemaGestionEducativa.dto.response.seguridad.UsuarioRolResponse;
 import fap.SistemaGestionEducativa.model.seguridad.UsuarioRol;

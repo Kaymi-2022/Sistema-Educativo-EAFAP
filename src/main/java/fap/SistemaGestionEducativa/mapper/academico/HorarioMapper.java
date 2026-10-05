@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.mapper.academico;
 
-import fap.SistemaGestionEducativa.Config.CentralMapperConfig;
+import fap.SistemaGestionEducativa.config.CentralMapperConfig;
 import fap.SistemaGestionEducativa.dto.request.academico.HorarioRequest;
 import fap.SistemaGestionEducativa.dto.response.academico.HorarioResponse;
 import fap.SistemaGestionEducativa.model.academico.BloqueHorario;

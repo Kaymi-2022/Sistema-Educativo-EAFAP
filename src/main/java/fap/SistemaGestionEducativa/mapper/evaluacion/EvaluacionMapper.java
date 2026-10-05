@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.mapper.evaluacion;
 
-import fap.SistemaGestionEducativa.Config.CentralMapperConfig;
+import fap.SistemaGestionEducativa.config.CentralMapperConfig;
 import fap.SistemaGestionEducativa.dto.request.evaluacion.EvaluacionRequest;
 import fap.SistemaGestionEducativa.dto.response.evaluacion.EvaluacionResponse;
 import fap.SistemaGestionEducativa.model.evaluacion.Evaluacion;

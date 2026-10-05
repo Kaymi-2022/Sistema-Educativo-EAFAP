@@ -1,4 +1,4 @@
-package fap.SistemaGestionEducativa.Config;
+package fap.SistemaGestionEducativa.config;
 
 
 import org.mapstruct.InjectionStrategy;

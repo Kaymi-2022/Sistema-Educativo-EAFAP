@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.mapper.academico;
 
-import fap.SistemaGestionEducativa.Config.CentralMapperConfig;
+import fap.SistemaGestionEducativa.config.CentralMapperConfig;
 import fap.SistemaGestionEducativa.dto.request.academico.MatriculaRequest;
 import fap.SistemaGestionEducativa.dto.response.academico.CursoDiscenteResponse;
 import fap.SistemaGestionEducativa.model.academico.CursoDiscente;

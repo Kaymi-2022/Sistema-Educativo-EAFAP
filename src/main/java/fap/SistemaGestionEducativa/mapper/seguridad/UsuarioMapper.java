@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.mapper.seguridad;
 
-import fap.SistemaGestionEducativa.Config.CentralMapperConfig;
+import fap.SistemaGestionEducativa.config.CentralMapperConfig;
 import fap.SistemaGestionEducativa.dto.request.seguridad.UsuarioRequest;
 import fap.SistemaGestionEducativa.dto.response.seguridad.UsuarioResponse;
 import fap.SistemaGestionEducativa.model.seguridad.Usuario;

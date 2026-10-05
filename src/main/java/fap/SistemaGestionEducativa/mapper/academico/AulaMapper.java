@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.mapper.academico;
 
-import fap.SistemaGestionEducativa.Config.CentralMapperConfig;
+import fap.SistemaGestionEducativa.config.CentralMapperConfig;
 import fap.SistemaGestionEducativa.dto.request.academico.AulaRequest;
 import fap.SistemaGestionEducativa.dto.response.academico.AulaResponse;
 import fap.SistemaGestionEducativa.model.academico.Aula;

@@ -1,6 +1,6 @@
 package fap.SistemaGestionEducativa.mapper.academico;
 
-import fap.SistemaGestionEducativa.Config.CentralMapperConfig;
+import fap.SistemaGestionEducativa.config.CentralMapperConfig;
 import fap.SistemaGestionEducativa.dto.request.academico.PeriodoAcademicoRequest;
 import fap.SistemaGestionEducativa.dto.response.academico.PeriodoAcademicoResponse;
 import fap.SistemaGestionEducativa.model.academico.PeriodoAcademico;
